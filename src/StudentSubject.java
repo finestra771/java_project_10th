@@ -9,4 +9,7 @@ public class StudentSubject {
     //수강생의 과목별 평균 등급
 
     //수강생의 특정 과목 회차별 등급 조회
+
+    //commit 테스트
+
 }
