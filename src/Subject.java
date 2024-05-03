@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 public class Subject {
     private int subjectNum; //고유 번호
     private String subjectName; // 과목명
@@ -7,5 +9,7 @@ public class Subject {
     //과목명 수정
 
     //고유 번호 수정
-
+    public static void main(String[] args) {
+        System.out.println(" ");
+    }
 }
