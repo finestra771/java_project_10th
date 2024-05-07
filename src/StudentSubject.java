@@ -1,15 +1,15 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class StudentSubject {
 
-    ArrayList<Score> scoreList=new ArrayList<>();
+    ArrayList<Score> scoreList;
     private Subject[] subjectList; //수강생 수강 과목 배열
     private Score[][] scoresList;// 수강생의 과목당 점수 배열
 
-    public StudentSubject(int subjectslength) {  //생성자
+    public StudentSubject(int subjectslength) {
+        this.scoreList =new ArrayList<>();
         this.subjectList = new Subject[subjectslength];
         this.scoresList = new Score[subjectslength][10];
     }
@@ -55,7 +55,7 @@ public class StudentSubject {
         System.out.println("수정할 회차와 점수를 입력하세요. ");
         int round=sc.nextInt();
         int score=sc.nextInt();
-        scoreList.set(round,score);
+        this.scoreList.set(round,score);
     }
 
 
@@ -63,17 +63,17 @@ public class StudentSubject {
     public double inquireSubjectAverageScore() {
         int scoreSum = 0;
         int result = 0;
-        for (int i : scoreList) {
-            scoreSum += scoreList[i];
-        } result = scoreSum / scoreList.size();
+        for (int i : this.scoreList) {
+            scoreSum += this.scoreList[i];
+        } result = scoreSum / this.scoreList.size();
         Score.setScoreScale(result);
     }
 
 
     //수강생의 특정 과목 회차별 등급 조회
     public void inquireSubjectRoundScore() {
-        for (int i:scoreList){
-            scoreList.get(i).setScoreScale(i);
+        for (int i:this.scoreList){
+            this.scoreList.get(i).setScoreScale(i);
         }
     }
 }
