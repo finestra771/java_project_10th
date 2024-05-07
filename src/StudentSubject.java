@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class StudentSubject {
 
-    ArrayList<Score> scoreList;
+    ArrayList<Integer> scoreList;
     private Subject[] subjectList; //수강생 수강 과목 배열
     private Score[][] scoresList;// 수강생의 과목당 점수 배열
 
@@ -50,11 +50,7 @@ public class StudentSubject {
     }
 
     //수강생의 과목별 회차 점수 수정
-    public void updateSubjectRoundScore() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("수정할 회차와 점수를 입력하세요. ");
-        int round=sc.nextInt();
-        int score=sc.nextInt();
+    public void updateSubjectRoundScore(int round, int score) {
         this.scoreList.set(round,score);
     }
 
@@ -64,8 +60,9 @@ public class StudentSubject {
         int scoreSum = 0;
         int result = 0;
         for (int i : this.scoreList) {
-            scoreSum += this.scoreList[i];
-        } result = scoreSum / this.scoreList.size();
+            scoreSum += this.scoreList.get(i);
+        }
+        result = scoreSum / this.scoreList.size();
         Score.setScoreScale(result);
     }
 
@@ -73,7 +70,8 @@ public class StudentSubject {
     //수강생의 특정 과목 회차별 등급 조회
     public void inquireSubjectRoundScore() {
         for (int i:this.scoreList){
-            this.scoreList.get(i).setScoreScale(i);
+            this.scoreList.get(i);
+            Score.setScoreScale(i);
         }
     }
 }
