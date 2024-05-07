@@ -51,19 +51,35 @@ public class StudentSubject {
 
     //수강생의 과목별 회차 점수 수정
     public void updateSubjectRoundScore(int round, int score) {
-        this.scoreList.set(round,score);
+        if (round<=10 && round>=1) {
+            if (score<=100 && score>=0) {
+                this.scoreList.set(round,score);
+            }
+        }
+        // 스코어, 라운드 제한사항 [[[[[추가]]]]]
     }
 
 
     //수강생의 과목별 평균 등급
-    public double inquireSubjectAverageScore() {
-        int scoreSum = 0;
-        int result = 0;
+    public ArrayList<Double> subjectAverageScore() {
+        ArrayList<Double> averageScoreList = new ArrayList<>();
+        double scoreSum = 0;
+        double result = 0;
         for (int i : this.scoreList) {
             scoreSum += this.scoreList.get(i);
         }
         result = scoreSum / this.scoreList.size();
-        Score.setScoreScale(result);
+        averageScoreList.add(result);
+        return averageScoreList;
+        // 어레이리스트 만들고 리턴하는거 [[[[[추가]]]]]
+    }
+
+
+    //수강생의 과목별 평균 등급 조회하는 메서드 [[[[[추가]]]]]
+    public void inquireSubjectAverageScore() {
+        Subject.getSubjectName() = new Subject();
+        ArrayList<Double> averageScoreList = subjectAverageScore();
+        System.out.println(subject.getSubjectName() + "의 평균 등급은" + averageScoreList + "입니다.");
     }
 
 
@@ -71,7 +87,8 @@ public class StudentSubject {
     public void inquireSubjectRoundScore() {
         for (int i:this.scoreList){
             this.scoreList.get(i);
-            Score.setScoreScale(i);
+            System.out.println(i+1 + " 회차 등급은 " + Score.setScoreScale(i) + " 입니다.");
         }
+        // 프린트하는것 [[[[[추가]]]]]
     }
 }
