@@ -1,12 +1,12 @@
 
 public class Subject {
-    private int subjectNum; //고유 번호
+    private String subjectNum; //고유 번호
     private String subjectName; // 과목명
     private SubjectCode subjectType; //과목타입
     private int subjectRound;//과목 회차
 
 
-    public int getSubjectNum() {
+    public String getSubjectNum() {
         return subjectNum;
     }
 
@@ -24,7 +24,7 @@ public class Subject {
     }
 
 
-    public Subject(int subjectNum, String subjectName, SubjectCode subjectType, int subjectRound) {
+    public Subject(String subjectNum, String subjectName, SubjectCode subjectType, int subjectRound) {
         this.subjectNum = subjectNum;
         this.subjectName = subjectName;
         this.subjectType = subjectType;
@@ -40,7 +40,7 @@ public class Subject {
                 this.subjectName = newSubjectName;
 
                 if (subjectList.name().equals("Java")) {
-                    this.subjectType = SubjectCode.MANDATORY; //enum에서 직접 참조
+                    this.subjectType = SubjectCode.MANDATORY;
                 } else if (subjectList.name().equals("객체지향")) {
                     this.subjectType = SubjectCode.MANDATORY;
                 } else if (subjectList.name().equals("Spring")) {
@@ -58,12 +58,9 @@ public class Subject {
                 } else if (subjectList.name().equals("MongoDB")) {
                     this.subjectType = SubjectCode.CHOICE;
                 }
-                //this.subjectNum="SU"+this.subjectName+this.subjectType
+                this.subjectNum = "SU"+this.subjectName+this.subjectType;
             }
         }
-
-        //고유 번호 수정 매서드 (필수 X)
-
     }
 }
 
