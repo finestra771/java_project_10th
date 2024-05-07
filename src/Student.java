@@ -15,11 +15,11 @@ public class Student {
 
 
     public void modifyStudentName(String name) {  //이름 입력받아 수정
-        this studentName = name;
+        this.studentName = name;
     }
 
     public void modifyStudentStatus(Status status) {  //상태 입력받아 수정
-        this studentStatus = status;
+        this.studentStatus = status;
     }
 
 
