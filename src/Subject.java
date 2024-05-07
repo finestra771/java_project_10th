@@ -59,6 +59,7 @@ public class Subject {
                     this.subjectType = SubjectCode.CHOICE;
                 }
                 this.subjectNum = "SU"+this.subjectName+this.subjectType;
+
             }
         }
     }
