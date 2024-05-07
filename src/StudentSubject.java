@@ -1,57 +1,79 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class StudentSubject {
-    private Subject[] subjects;
-    private Score[][] scoreList;
 
+    ArrayList<Score> scoreList=new ArrayList<>();
+    private Subject[] subjectList; //수강생 수강 과목 배열
+    private Score[][] scoresList;// 수강생의 과목당 점수 배열
 
-    public StudentSubject() {
-        this.subjects = new Subject[5]; // 과목 최소 5개
-        this.scoreList = new Score[5][10]; // 과목 최소 5개 , 시험 10회
-    }
-
-    public StudentSubject(int subjectlength) {
-        this.subjects = new Subject[subjectlength]; // 과목 최대 9개 과목 index 의 길이만큼
-        this.scoreList = new Score[subjectlength][10]; // 과목 최대 9개 과목 index 의 길이만큼, 시험 10회
+    public StudentSubject(int subjectslength) {  //생성자
+        this.subjectList = new Subject[subjectslength];
+        this.scoresList = new Score[subjectslength][10];
     }
 
     //수강생의 과목별 시험 회차 및  점수 등록 (->자동으로 등급저장)
-    public void createSubjectRoundScore(Score[][] score){
-        for (int i=0; i<this.subjects.length; i++ ) {
-            for (int j = 0; j < 10; j++) {
-                this.scoreList[i][j] = score[i][j];
+    public void createSubjectRoundScore(int studentID){
+        Scanner sc = new Scanner(System.in);
+        Student student=findStudentById(studentID);
+        ArrayList<ArrayList<Score>> scoreList2=new ArrayList<>();
+        for (Subject subject : student.getSubjectList()) {
+            ArrayList<Score> scoreList=new ArrayList<>();
+            for(int i=0;i<10;i++){
+                System.out.println(subject.getSubjectName()+"의 "+(i+1)+"회차 성적을 입력해주세요 : ");
+                int score=sc.nextInt();
+                if(score<=100 && score>=0) scoreList.add(new Score(subject.getSubjectNum(), studentID, i, score));
+                else{
+                    System.out.println("잘못된 입력입니다.");
+                    i--;
+                }
+            }
+            scoreList2.add(scoreList);
+        }
+        Score[][] scores=new Score[scoreList2.size()][10];
+        for(int i=0;i<scoreList2.size();i++){
+            for(int j=0;j<scoreList2.get(i).size();j++){
+                scores[i][j]=scoreList2.get(i).get(j);
             }
         }
+        student.setScoresList(scores);
+    }
+    private static List<Student> studentList = new ArrayList<>();
+    public static Student findStudentById(int studentScore) {
+        for (Student student : studentList) {
+            if(student.getStudentID() == studentScore)
+                return student;
+        }
+        return null;
     }
 
     //수강생의 과목별 회차 점수 수정
-    public void updateSubjectRoundScore(Score[][] score, int subjectRound, int round) {
-        for (int i=0; i<this.subjects.length; i++ ) {
-            for (int j=0; j<10; j++) {
-                if (subjectRound == round) {
-                    this.scoreList[i][j] = score[i][j];
-                }
-            }
-        }
+    public void updateSubjectRoundScore() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("수정할 회차와 점수를 입력하세요. ");
+        int round=sc.nextInt();
+        int score=sc.nextInt();
+        scoreList.set(round,score);
     }
 
+
     //수강생의 과목별 평균 등급
-    public double inquireSubjectAverageScore(Score[][] score) {
+    public double inquireSubjectAverageScore() {
         int scoreSum = 0;
-        for (int i=0; i<this.subjects.length; i++ ) {
-            for (int j = 0; j < 10; j++) {
-                this.scoreList[i][j] = score[i][j];
-                scoreSum += Integer.parseInt(this.scoreList[i][j].toString());
-            }
-        } return scoreSum / this.subjects.length ;
+        int result = 0;
+        for (int i : scoreList) {
+            scoreSum += scoreList[i];
+        } result = scoreSum / scoreList.size();
+        Score.setScoreScale(result);
     }
 
 
     //수강생의 특정 과목 회차별 등급 조회
-    public void inquireSubjectRoundScore(String scoreScale) {
-        Arrays.deepToString(this.scoreList);
+    public void inquireSubjectRoundScore() {
+        for (int i:scoreList){
+            scoreList.get(i).setScoreScale(i);
+        }
     }
-
-
-
 }
