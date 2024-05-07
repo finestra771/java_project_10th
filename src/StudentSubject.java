@@ -77,7 +77,7 @@ public class StudentSubject {
 
     //수강생의 과목별 평균 등급 조회하는 메서드 [[[[[추가]]]]]
     public void inquireSubjectAverageScore() {
-        Subject.getSubjectName() = new Subject();
+        Subject subject = new Subject();
         ArrayList<Double> averageScoreList = subjectAverageScore();
         System.out.println(subject.getSubjectName() + "의 평균 등급은" + averageScoreList + "입니다.");
     }
@@ -85,9 +85,10 @@ public class StudentSubject {
 
     //수강생의 특정 과목 회차별 등급 조회
     public void inquireSubjectRoundScore() {
+        Score score = new Score();
         for (int i:this.scoreList){
             this.scoreList.get(i);
-            System.out.println(i+1 + " 회차 등급은 " + Score.setScoreScale(i) + " 입니다.");
+            System.out.println(i+1 + " 회차 등급은 " + score.getScoreScale(i) + " 입니다.");
         }
         // 프린트하는것 [[[[[추가]]]]]
     }
