@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class Client {
     private static List<Student> studentList = new ArrayList<>();
 
+    // 1-1) 수강생 정보 등록
     public static void addStudentInfo() {
 
         ArrayList<Subject> subjects = new ArrayList<>();
@@ -69,7 +70,7 @@ public class Client {
             }
 
             if(subjectName1!=null){
-                subjects.add(new Subject(select1, subjectName1,"Mandatory"));
+                subjects.add(new Subject(select1, subjectName1,"MANDATORY"));
                 cnt1++;
             }
             for (Subject subject :subjects){
@@ -111,7 +112,7 @@ public class Client {
             }
 
             if(subjectName2!=null){
-                subjects.add(new Subject(select2, subjectName2,"ELECTIVE"));
+                subjects.add(new Subject(select2, subjectName2,"SELECTIVE"));
                 cnt2++;
             }
             for (Subject subject :subjects){
@@ -129,76 +130,7 @@ public class Client {
         System.out.println("저장 완료");
     }
 
-    public static void printAllStudentInfo(){
-        studentList.stream().forEach(student -> System.out.println(student.getStudentName()+" : "+student.getStudentID()));
-    }
-
-
-    //수강생 정보 조회
-    public static void inquireStudentInfo(int studentID) {
-        //수강생 고유번호 전달 받음
-        if(findStudentByID(studentID)){
-            studentList.stream().filter(student -> student.getStudentID() == studentID)
-                    .forEach(student -> {System.out.println("[학생 정보]");
-                        System.out.println("이름: " + student.getStudentName());
-                        System.out.println("상태: " + student.getStudentStatus());
-                        System.out.println("수강 과목목록: " + student.subjectListtoString());});
-        }
-        else{
-            System.out.println("존재하지 않는 번호입니다.");
-        }
-    }
-    public static boolean findStudentByID(int studentID) {
-        return studentList.stream().anyMatch(student -> student.getStudentID() == studentID);
-    }
-
-
-    //수강생 정보 수정
-    public static void modifyStudentInfo(int studentID) {
-        if(findStudentByID(studentID)) {
-            System.out.println("수정할 항목을 입력하세요");
-            System.out.println("1. 이름");
-            System.out.println("2. 상태");
-
-            Scanner sc = new Scanner(System.in);
-            switch (sc.nextInt()) {
-                case 1 -> {
-                    System.out.print("학생의 아이디를 입력하세요 : ");
-                    String studentId = sc.next();
-                    System.out.print("새로운 이름을 입력하세요 : ");
-                    String newName = sc.next();
-                    modifyStudentName(studentID, newName);
-                }
-                case 2 -> {
-                    System.out.print("학생의 아이디를 입력하세요 : ");
-                    String studentId = sc.next();
-                    System.out.print("새로운 상태를 입력하세요 : ");
-                    Status newStatus = Status.valueOf(sc.next());
-                    modifyStudentStatus(studentID, newStatus);
-                }
-            }
-            System.out.println("수정이 완료되었습니다.");
-        }
-        else{
-            System.out.println("존재하지 않는 번호입니다.");
-        }
-    }
-    public static void modifyStudentName(int studentID, String newName) {
-        studentList.stream().filter(student -> student.getStudentID() == studentID)
-                .forEach(student -> {
-                    if (student.getStudentName().equals(newName)) {
-                        student.setStudentName(newName);
-                    }
-                });
-    }
-    public static void modifyStudentStatus(int studentID, Status newStatus) {
-        studentList.stream().filter(student -> student.getStudentID() == studentID)
-                .forEach(student -> {
-                    if (student.getStudentStatus().equals(newStatus)) {
-                        student.setStudentStatus(newStatus);
-                    }
-                });
-    }
+    // 1-2) 수강생 삭제 (점수까지 삭제)
     public static void deleteStudent() {
         Scanner sc = new Scanner(System.in);
         System.out.println("삭제하고 싶은 수강생의 번호를 입력하세요 : ");
@@ -217,6 +149,8 @@ public class Client {
             System.out.println("목록에 없는 번호입니다. 다시 입력하세요.");
         }
     }
+
+    // 1-3) 수강생 점수 등록
     public static void setStudentScore() {
         Scanner sc = new Scanner(System.in);
         System.out.println("성적을 세팅하고 싶은 수강생의 번호를 입력해주세요 : ");
@@ -264,6 +198,7 @@ public class Client {
             System.out.println("리스트에 없는 학생입니다.");
         }
     }
+
     public static Student findStudentById(int studentScore) {
         for (Student student : studentList) {
             if(student.getStudentID() == studentScore)
@@ -271,6 +206,88 @@ public class Client {
         }
         return null;
     }
+
+
+
+    @FunctionalInterface
+    interface StudentModifier {
+        void modify(Student student);
+    }
+
+    // 1-4) 수강생 정보 수정 (이름/상태)
+    public static void modifyStudentInfo(int studentID) {
+        if(findStudentByID(studentID)) {
+            System.out.println("수정할 항목을 입력하세요");
+            System.out.println("1. 이름");
+            System.out.println("2. 상태");
+
+            Scanner sc = new Scanner(System.in);
+            StudentModifier modifier = null;
+
+            switch (sc.nextInt()) {
+                case 1 -> {
+                    System.out.print("새로운 이름을 입력하세요 : ");
+                    String newName = sc.next();
+                    modifier = student -> student.setStudentName(newName);
+                }
+                case 2 -> {
+                    System.out.print("새로운 상태를 입력하세요 : ");
+                    Status newStatus = Status.valueOf(sc.next());
+                    modifier = student -> student.setStudentStatus(newStatus);
+                }
+            }
+
+            if (modifier != null) {
+                modifyStudent(studentID, modifier);
+                System.out.println("수정이 완료되었습니다.");
+            } else {
+                System.out.println("올바른 선택이 아닙니다.");
+            }
+        }
+
+        else {
+            System.out.println("존재하지 않는 번호입니다.");
+        }
+    }
+
+    public static void modifyStudent(int studentID, StudentModifier modifier) {
+        studentList.stream()
+                .filter(student -> student.getStudentID() == studentID)
+                .forEach(modifier::modify);
+    }
+
+
+
+
+
+
+    // 2-1) 전체 수강생 목록 조회
+    public static void printAllStudentInfo(){
+        studentList.stream().forEach(student -> System.out.println(student.getStudentName()+" : "+student.getStudentID()));
+    }
+
+    // 2-1) 수강생 정보 조회
+    public static void inquireStudentInfo(int studentID) {
+        //수강생 고유번호 전달 받음
+        if(findStudentByID(studentID)){
+            studentList.stream().filter(student -> student.getStudentID() == studentID)
+                    .forEach(student -> {System.out.println("[학생 정보]");
+                        System.out.println("이름: " + student.getStudentName());
+                        System.out.println("상태: " + student.getStudentStatus());
+                        System.out.println("수강 과목목록: " + student.subjectListtoString());});
+        }
+        else{
+            System.out.println("존재하지 않는 번호입니다.");
+        }
+    }
+
+    public static boolean findStudentByID(int studentID) {
+        return studentList.stream().anyMatch(student -> student.getStudentID() == studentID);
+    }
+
+
+
+    // 2-2) 상태별 수강생 목록 조회
     public static void inquireStudentInfoByStatus(){
         Scanner sc = new Scanner(System.in);
         System.out.println("출력하고 싶은 학생의 상태를 입력하세요 : " );
@@ -281,6 +298,8 @@ public class Client {
             });
         }
     }
+
+    // 2-3) 특정 상태 수강생들의 필수 과목 평균 등급 조회
     public static void inquireStudentAvgScore(){
         Scanner sc = new Scanner(System.in);
         System.out.println("평균 점수를 출력하고 싶은 학생의 번호를 입력하세요 : ");
