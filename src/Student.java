@@ -69,4 +69,29 @@ public class Student {
     public void setScoresList(Score[][] scoresList) {
         this.scoresList = scoresList;
     }
+
+    public String getScores() {
+        String res="";
+        if(scoresList!=null){
+            for(Score[] score : scoresList){
+                for(Score s : score){
+                    res=res+s.getScoretoString()+" ";
+                }
+                res+="\n";
+            }
+            return res;
+        }
+        else{
+            System.out.println("성적을 입력한 뒤 실행해주세요.");
+            return "";
+        }
+    }
+
+    public String subjectListtoString(){
+        String res="";
+        for(Subject s : subjectList){
+            res=res+s.getSubjectName()+" ";
+        }
+        return res;
+    }
 }
