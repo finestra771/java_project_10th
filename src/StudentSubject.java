@@ -89,7 +89,6 @@ public class StudentSubject {
         for (int i:this.scoreList){
             this.scoreList.get(i);
             System.out.println(i+1 + " 회차 등급은 " + score.getScoreScale(i) + " 입니다.");
-        }
-        // 프린트하는것 [[[[[추가]]]]]
+        } // 프린트하는것 [[[[[추가]]]]]
     }
 }
