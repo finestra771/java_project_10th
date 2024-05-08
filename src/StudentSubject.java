@@ -79,7 +79,7 @@ public class StudentSubject {
     public void inquireSubjectAverageScore(Subject subject, ArrayList<Score> scoreList) {
         ArrayList<Double> averageScoreList = subjectAverageScore(scoreList);
         for (int i=0;i<averageScoreList.size();i++) {
-            System.out.println(subject.getSubjectName() + "의 평균 등급은" + averageScoreList.get(i) + "입니다.");
+            System.out.println(subject.getSubjectName() + "의 평균 성적은" + averageScoreList.get(i) + "입니다.");
         }
     }
 
