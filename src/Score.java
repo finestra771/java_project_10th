@@ -2,7 +2,7 @@ import java.util.Objects;
 
 public class Score {
 
-    private int subjectNum; //과목 고유번호
+    private String subjectNum; //과목 고유번호
     private SubjectCode subjectCode; // 과목 코드
     private int studentNum; //수강생 고유 번호
     private int round; //회차
@@ -10,7 +10,7 @@ public class Score {
 
     private String scoreScale; //등급
 
-    public Score(int subjectNum, int studentNum, int round, int score) {
+    public Score(String subjectNum, int studentNum, int round, int score) {
         this.subjectNum = subjectNum;
         this.studentNum = studentNum;
         this.round = round;
@@ -74,7 +74,9 @@ public class Score {
     public String getScoreScale() {
         return this.scoreScale;
     }
-
+    public String getScoretoString(){
+        return Integer.toString(this.score);
+    }
     //등급 세팅 메소드
 
     // 과목 하나당 10회 시험

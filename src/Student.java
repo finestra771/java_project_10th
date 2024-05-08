@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Student {
@@ -68,6 +69,20 @@ public class Student {
 
     public void setScoresList(Score[][] scoresList) {
         this.scoresList = scoresList;
+    }
+    public ArrayList<Score> getScoresByAray(Subject subject){
+        ArrayList<Score> scores = new ArrayList<>();
+        int index=0;
+        for (Subject subject1 : subjectList){
+            if(subject1.getSubjectName().equals(subject.getSubjectName())){
+                break;
+            }
+            index++;
+        }
+        for(Score score : scoresList[index]){
+            scores.add(score);
+        }
+        return scores;
     }
 
     public String getScores() {
