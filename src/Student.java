@@ -6,25 +6,13 @@ public class Student {
     private String studentName; //수강생 이름
     private Status studentStatus; //수강생 상태
     private Subject[] subjectList; //수강생 수강 과목 배열
-    private Score[][] scoresList;// 수강생의 전체 점수 배열
+    private Score[][] scoresList;// 수강생의 과목당 점수 배열
 
     public Student(int studentID, String studentName, Subject[] subjectList) {  //생성자
         this.studentID = studentID;
         this.studentName = studentName;
         this.subjectList = subjectList;
     }
-
-
-    public void modifyStudentName(String name) {  //이름 입력받아 수정
-        this.studentName = name;
-    }
-
-    public void modifyStudentStatus(Status status) {  //상태 입력받아 수정
-        this.studentStatus = status;
-    }
-
-
-
 
     // Getter & Setter
     public int getStudentID() {
@@ -35,7 +23,6 @@ public class Student {
         this.studentID = studentID;
     }
 
-
     public String getStudentName() {
         return studentName;
     }
@@ -43,7 +30,6 @@ public class Student {
     public void setStudentName(String studentName) {
         this.studentName = studentName;
     }
-
 
     public Status getStudentStatus() {
         return studentStatus;
@@ -53,7 +39,6 @@ public class Student {
         this.studentStatus = studentStatus;
     }
 
-
     public Subject[] getSubjectList() {
         return subjectList;
     }
@@ -62,7 +47,6 @@ public class Student {
         this.subjectList = subjectList;
     }
 
-
     public Score[][] getScoresList() {
         return scoresList;
     }
@@ -70,7 +54,8 @@ public class Student {
     public void setScoresList(Score[][] scoresList) {
         this.scoresList = scoresList;
     }
-    public ArrayList<Score> getScoresByAray(Subject subject){
+
+    public ArrayList<Score> getScoresByArray(Subject subject){
         ArrayList<Score> scores = new ArrayList<>();
         int index=0;
         for (Subject subject1 : subjectList){
