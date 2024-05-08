@@ -24,11 +24,10 @@ public class Subject {
     }
 
 
-    public Subject(String subjectNum, String subjectName, SubjectCode subjectType, int subjectRound) {
+    public Subject(String subjectNum, String subjectName, SubjectCode subjectType) {
         this.subjectNum = subjectNum;
         this.subjectName = subjectName;
         this.subjectType = subjectType;
-        this.subjectRound = subjectRound;
     }
 
     //과목명 수정 매서드
@@ -58,7 +57,7 @@ public class Subject {
                 } else if (subjectList.name().equals("MongoDB")) {
                     this.subjectType = SubjectCode.CHOICE;
                 }
-                this.subjectNum = "SU"+this.subjectName+this.subjectType;
+                this.subjectNum = "SU" + this.subjectName + this.subjectType;
 
             }
         }

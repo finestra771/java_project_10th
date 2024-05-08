@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 public class Client {
     private static List<Student> studentList = new ArrayList<>();
-
     // 1-1) 수강생 정보 등록
     public static void addStudentInfo() {
 
@@ -70,7 +69,7 @@ public class Client {
             }
 
             if(subjectName1!=null){
-                subjects.add(new Subject(select1, subjectName1,"MANDATORY"));
+                subjects.add(new Subject("SU"+subjectName1+"MANDATORY", subjectName1,SubjectCode.MANDATORY));
                 cnt1++;
             }
             for (Subject subject :subjects){
@@ -112,7 +111,7 @@ public class Client {
             }
 
             if(subjectName2!=null){
-                subjects.add(new Subject(select2, subjectName2,"SELECTIVE"));
+                subjects.add(new Subject("SU"+subjectName2+"CHOICE", subjectName2,SubjectCode.CHOICE));
                 cnt2++;
             }
             for (Subject subject :subjects){
@@ -167,27 +166,8 @@ public class Client {
             switch(sc.nextInt()){
                 case 1:
                     Student student=findStudentById(studentID);
-                    ArrayList<ArrayList<Score>> scoreList2=new ArrayList<>();
-                    for (Subject subject : student.getSubjectList()) {
-                        ArrayList<Score> scoreList=new ArrayList<>();
-                        for(int i=0;i<10;i++){
-                            System.out.println(subject.getSubjectName()+"의 "+(i+1)+"회차 성적을 입력해주세요 : ");
-                            int score=sc.nextInt();
-                            if(score<=100 && score>=0) scoreList.add(new Score(subject.getSubjectNum(), studentID, i, score));
-                            else{
-                                System.out.println("잘못된 입력입니다.");
-                                i--;
-                            }
-                        }
-                        scoreList2.add(scoreList);
-                    }
-                    Score[][] scores=new Score[scoreList2.size()][10];
-                    for(int i=0;i<scoreList2.size();i++){
-                        for(int j=0;j<scoreList2.get(i).size();j++){
-                            scores[i][j]=scoreList2.get(i).get(j);
-                        }
-                    }
-                    student.setScoresList(scores);
+                    StudentSubject studentSubject=new StudentSubject(student.getSubjectList(), student.getScoresList());
+                    studentSubject.createSubjectRoundScore(studentList, studentID);
                     System.out.println("성적 저장 완료되었습니다.");
                     break;
                 case 2:
@@ -199,9 +179,9 @@ public class Client {
         }
     }
 
-    public static Student findStudentById(int studentScore) {
+    public static Student findStudentById(int studentID) {
         for (Student student : studentList) {
-            if(student.getStudentID() == studentScore)
+            if(student.getStudentID() == studentID)
                 return student;
         }
         return null;
@@ -305,7 +285,10 @@ public class Client {
         System.out.println("평균 점수를 출력하고 싶은 학생의 번호를 입력하세요 : ");
         for(Student student : studentList){
             if(student.getStudentID()==sc.nextInt()){
-                System.out.println(student.getScores());
+                StudentSubject studentSubject=new StudentSubject(student.getSubjectList(), student.getScoresList());
+                for (Subject subject : student.getSubjectList()) {
+                    studentSubject.inquireSubjectAverageScore(subject, student.getScoresByAray(subject));
+                }
             }
         }
     }
