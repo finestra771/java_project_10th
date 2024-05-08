@@ -81,7 +81,7 @@ public class Client {
 
             SubjectList selectedSubject = SubjectList.getSubjectByOrder(select);
             if (selectedSubject != null) {
-                subjects.add(new Subject(selectedSubject.getOrder(), selectedSubject.name(), subjectCode));
+                subjects.add(new Subject(Integer.toString(selectedSubject.getOrder()), selectedSubject.name(), subjectCode));
                 cnt++;
             }
         }
@@ -132,6 +132,7 @@ public class Client {
                     StudentSubject studentSubject=new StudentSubject(student.getSubjectList(), student.getScoresList());
                     studentSubject.createSubjectRoundScore(studentList, studentID);
                     System.out.println("성적 저장 완료되었습니다.");
+                    setStatus(studentID);
                     break;
                 case 2:
                     System.out.println("취소 완료되었습니다.");
@@ -247,6 +248,40 @@ public class Client {
                     studentSubject.inquireSubjectAverageScore(subject, student.getScoresByArray(subject));
                 }
             }
+        }
+    }
+    public static void setStatus(int studentID){
+        Student student=findStudentById(studentID);
+        ArrayList<Double> studentAverageScore=new ArrayList<>();
+        for (Subject subject : student.getSubjectList()) {
+            StudentSubject studentSubject=new StudentSubject(student.getSubjectList(), student.getScoresList());
+            for(Subject subject1:student.getSubjectList()){
+                studentAverageScore= studentSubject.subjectAverageScore(student.getScoresByArray(subject));
+            }
+        }
+        for(double score : studentAverageScore){
+            switch((int)score/10){
+                case 10: case 9:
+                    student.setStudentStatus(Status.GREEN);
+                    break;
+                case 8: case 7: case 6:
+                    student.setStudentStatus(Status.YELLOW);
+                    break;
+                default: student.setStudentStatus(Status.RED);
+            }
+        }
+    }
+
+    public static void getScores(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("전체 성적을 출력하고 싶은 학생의 번호를 입력해주세요.");
+        int studentID=sc.nextInt();
+        Student student=findStudentById(studentID);
+        if(student!=null){
+            System.out.println(student.getScores());
+        }
+        else{
+            System.out.println("데이터베이스에 없는 학생입니다.");
         }
     }
 }

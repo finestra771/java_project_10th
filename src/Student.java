@@ -72,12 +72,15 @@ public class Student {
 
     public String getScores() {
         String res="";
+        int index=0;
         if(scoresList!=null){
             for(Score[] score : scoresList){
+                res=res+subjectList[index].getSubjectName()+" ";
                 for(Score s : score){
                     res=res+s.getScoretoString()+" ";
                 }
                 res+="\n";
+                index++;
             }
             return res;
         }

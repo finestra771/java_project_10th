@@ -40,6 +40,7 @@ public class Main {
                             break;
                         case 3:
                             client.getScores();
+                            break;
                         case 4:
                             client.inquireStudentAvgScore();
                             break;
