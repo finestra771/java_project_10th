@@ -28,19 +28,36 @@ public class Client {
             }
         }
 
-
         System.out.print("이름 : ");
         name = sc.next();
         System.out.println();
 
+        selectMandatorySubjects(subjects, sc);  // 필수과목
+        selectOptionalSubjects(subjects, sc);  //선택과목
 
 
+        for (Subject subject :subjects){
+            System.out.print(subject.getSubjectName()+" ");
+        }
+        System.out.println();
+
+
+        Subject[] subjectList=new Subject[subjects.size()];
+        for(int i=0;i<subjects.size();i++){
+            subjectList[i]=subjects.get(i);
+        }
+        Student student = new Student(stuID, name, subjectList);
+        studentList.add(student);
+        System.out.println("저장 완료");
+    }
+
+    private static void selectMandatorySubjects(ArrayList<Subject> subjects, Scanner sc) {
         System.out.println("<필수 과목 목록>");
-        System.out.println("1. Java");
-        System.out.println("2. 객체지향");
-        System.out.println("3. Spring");
-        System.out.println("4. JPA");
-        System.out.println("5. MySQL");
+        for (SubjectList subject : SubjectList.values()) {
+            if (subject.getOrder() <= 5) {
+                System.out.println(subject.getOrder() + ". " + subject.getName());
+            }
+        }
         System.out.println("필수과목 중 최소 3개를 선택해주세요 (선택완료 시 -1 입력)");
         System.out.println();
 
@@ -48,16 +65,6 @@ public class Client {
         while(cnt1<=4){
             System.out.print((cnt1+1) + "번째 과목번호 : ");
             int select1 = sc.nextInt();
-            String subjectName1;
-
-            switch (select1) {
-                case 1 -> subjectName1 = "Java";
-                case 2 -> subjectName1 = "객체지향";
-                case 3 -> subjectName1 = "Spring";
-                case 4 -> subjectName1 = "JPA";
-                case 5 -> subjectName1 = "MySQL";
-                default -> subjectName1 = null;
-            }
 
             if (select1 == -1){
                 if(cnt1 < 3){
@@ -68,65 +75,44 @@ public class Client {
                     break;
             }
 
-            if(subjectName1!=null){
-                subjects.add(new Subject("SU"+subjectName1+"MANDATORY", subjectName1,SubjectCode.MANDATORY));
+            SubjectList selectedSubject = SubjectList.getSubjectByOrder(select1);
+            if (selectedSubject != null) {
+                subjects.add(new Subject(selectedSubject.getOrder(), selectedSubject.name(), SubjectCode.MANDATORY));
                 cnt1++;
             }
-            for (Subject subject :subjects){
-                System.out.print(subject.getSubjectName()+" ");
-            }
-            System.out.println();
         }
+    }
 
-
-
+    private static void selectOptionalSubjects(ArrayList<Subject> subjects, Scanner sc) {
         System.out.println("<선택 과목 목록>");
-        System.out.println("6. 디자인 패턴");
-        System.out.println("7. Spring Security");
-        System.out.println("8. Redis");
-        System.out.println("9. MongoDB");
+        for (SubjectList subject : SubjectList.values()) {
+            if (subject.getOrder() > 5) {
+                System.out.println(subject.getOrder() + ". " + subject.getName());
+            }
+        }
         System.out.println("선택과목 중 최소 2개를 선택해주세요 (선택완료 시 -1 입력)");
         System.out.println();
 
         int cnt2=0;
-        while(cnt2<=4){
+        while(cnt2<=3){
             System.out.print((cnt2+1) + "번째 과목번호 : ");
             int select2 = sc.nextInt();
-            String subjectName2;
 
-            switch (select2) {
-                case 6 -> subjectName2 = "디자인 패턴";
-                case 7 -> subjectName2 = "Spring Security";
-                case 8 -> subjectName2 = "Redis";
-                case 9 -> subjectName2 = "MongoDB";
-                default -> subjectName2 = null;
-            }
             if (select2 == -1){
-                if(cnt2< 2){
-                    System.out.println("아직 "+cnt1+"개의 과목만 선택하셨습니다. 최소 3개는 선택해야합니다.");
+                if(cnt2 < 2){
+                    System.out.println("아직 "+cnt2+"개의 과목만 선택하셨습니다. 최소 3개는 선택해야합니다.");
                     continue;
                 }
                 else
                     break;
             }
 
-            if(subjectName2!=null){
-                subjects.add(new Subject("SU"+subjectName2+"CHOICE", subjectName2,SubjectCode.CHOICE));
+            SubjectList selectedSubject = SubjectList.getSubjectByOrder(select2);
+            if (selectedSubject != null) {
+                subjects.add(new Subject(selectedSubject.getOrder(),selectedSubject.name(), SubjectCode.CHOICE));
                 cnt2++;
             }
-            for (Subject subject :subjects){
-                System.out.print(subject.getSubjectName()+" ");
-            }
-            System.out.println();
         }
-
-        Subject[] subjectList=new Subject[subjects.size()];
-        for(int i=0;i<subjects.size();i++){
-            subjectList[i]=subjects.get(i);
-        }
-        Student student = new Student(stuID, name, subjectList);
-        studentList.add(student);
-        System.out.println("저장 완료");
     }
 
     // 1-2) 수강생 삭제 (점수까지 삭제)
