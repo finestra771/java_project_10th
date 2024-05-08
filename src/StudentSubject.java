@@ -21,15 +21,16 @@ public class StudentSubject {
         for (Subject subject : student.getSubjectList()) {
             ArrayList<Score> scoreList=new ArrayList<>();
             for(int i=0;i<10;i++){
-                System.out.println(subject.getSubjectName()+"의 "+(i+1)+"회차 성적을 입력해주세요 : ");
-                int score=sc.nextInt();
-                if(score<=100 && score>=0) {
-                    scoreList.add(new Score(subject.getSubjectNum(), studentID, i, score));
-                }
-                else{
-                    System.out.println("잘못된 입력입니다.");
-                    i--;
-                }
+//                System.out.println(subject.getSubjectName()+"의 "+(i+1)+"회차 성적을 입력해주세요 : ");
+//                int score=sc.nextInt();
+//                if(score<=100 && score>=0) {
+//                    scoreList.add(new Score(subject.getSubjectNum(), studentID, i, score));
+//                }
+//                else{
+//                    System.out.println("잘못된 입력입니다.");
+//                    i--;
+//                }
+                scoreList.add(new Score(subject.getSubjectNum(), studentID, i, 1));
             }
             scoreList2.add(scoreList);
         }
