@@ -77,7 +77,7 @@ public class Client {
 
             SubjectList selectedSubject = SubjectList.getSubjectByOrder(select1);
             if (selectedSubject != null) {
-                subjects.add(new Subject(selectedSubject.getOrder(), selectedSubject.name(), SubjectCode.MANDATORY));
+                subjects.add(new Subject(Integer.toString(selectedSubject.getOrder()), selectedSubject.name(), SubjectCode.MANDATORY));
                 cnt1++;
             }
         }
@@ -109,7 +109,7 @@ public class Client {
 
             SubjectList selectedSubject = SubjectList.getSubjectByOrder(select2);
             if (selectedSubject != null) {
-                subjects.add(new Subject(selectedSubject.getOrder(),selectedSubject.name(), SubjectCode.CHOICE));
+                subjects.add(new Subject(Integer.toString(selectedSubject.getOrder()),selectedSubject.name(), SubjectCode.CHOICE));
                 cnt2++;
             }
         }
@@ -163,6 +163,7 @@ public class Client {
         else{
             System.out.println("리스트에 없는 학생입니다.");
         }
+        setStatus(studentID);
     }
 
     public static Student findStudentById(int studentID) {
@@ -264,8 +265,15 @@ public class Client {
             });
         }
     }
-
-    // 2-3) 특정 상태 수강생들의 필수 과목 평균 등급 조회
+    // 2-3)
+    public static void getScores(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("전체 성적을 조회하고 싶은 학생의 번호를 입력하세요.");
+        int studentID=sc.nextInt();
+        Student student=findStudentById(studentID);
+        student.getScores();
+    }
+    // 2-4) 특정 상태 수강생들의 필수 과목 평균 등급 조회
     public static void inquireStudentAvgScore(){
         Scanner sc = new Scanner(System.in);
         System.out.println("평균 점수를 출력하고 싶은 학생의 번호를 입력하세요 : ");
@@ -275,6 +283,27 @@ public class Client {
                 for (Subject subject : student.getSubjectList()) {
                     studentSubject.inquireSubjectAverageScore(subject, student.getScoresByAray(subject));
                 }
+            }
+        }
+    }
+    public static void setStatus(int studentID){
+        Student student=findStudentById(studentID);
+        ArrayList<Double> studentAverageScore=new ArrayList<>();
+        for (Subject subject : student.getSubjectList()) {
+            StudentSubject studentSubject=new StudentSubject(student.getSubjectList(), student.getScoresList());
+            for(Subject subject1:student.getSubjectList()){
+                studentAverageScore= studentSubject.subjectAverageScore(student.getScoresByAray(subject));
+            }
+        }
+        for(double score : studentAverageScore){
+            switch((int)score/10){
+                case 10: case 9:
+                    student.setStudentStatus(Status.GREEN);
+                    break;
+                case 8: case 7: case 6:
+                    student.setStudentStatus(Status.YELLOW);
+                    break;
+                default: student.setStudentStatus(Status.RED);
             }
         }
     }
