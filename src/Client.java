@@ -38,12 +38,12 @@ public class Client {
         }
         System.out.println();
 
-        Subject[] subjectList=new Subject[subjects.size()];
+        Subject[] subjectList = new Subject[subjects.size()];
         for(int i=0;i<subjects.size();i++){
             subjectList[i]=subjects.get(i);
         }
-        Student student = new Student(stuID, name, subjectList);
-        studentList.add(student);
+
+        studentList.add(new Student(stuID, name, subjectList));
         System.out.println("저장 완료");
     }
 
@@ -74,12 +74,22 @@ public class Client {
                 }
             }
 
+            if (!isValidSubjectNumber(select, subjectCode)) {
+                System.out.println("선택지에 없는 과목 번호입니다. 다시 입력해주세요.");
+                continue;
+            }
+
             SubjectList selectedSubject = SubjectList.getSubjectByOrder(select);
             if (selectedSubject != null) {
                 subjects.add(new Subject(Integer.toString(selectedSubject.getOrder()), selectedSubject.name(), subjectCode));
                 cnt++;
             }
         }
+    }
+
+    private static boolean isValidSubjectNumber(int select, SubjectCode subjectCode) {
+        return (subjectCode == SubjectCode.MANDATORY && select >= 1 && select <= 5) ||
+                (subjectCode == SubjectCode.CHOICE && select >= 6 && select <= 9);
     }
 
     // 1-2) 수강생 삭제 (점수까지 삭제)
