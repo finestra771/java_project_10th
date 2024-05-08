@@ -28,7 +28,7 @@ public class Main {
                     }
                     break;
                 case 2:
-                    System.out.println("전체 수강생 목록 조회는 1, 상태별 수강생 목록 조회는 2, 특정 수강생의 전체 성적 조회는 3, 특정 상태 수강생들의 필수 과목 평균 등급 조회는 4를 입력하세요");
+                    System.out.println("전체 수강생 목록 조회는 1, 상태별 수강생 목록 조회는 2, 특정 수강생의 전체 성적 조회는 3, 특정 상태 수강생들의 필수 과목 평균 등급 조회는 4, 특정 상태 수강생들의 필수 과목 평균 등급을 조회는 5를 입력하세요");
                     switch (sc.nextInt()) {
                         case 1:
                             client.printAllStudentInfo();
@@ -44,6 +44,8 @@ public class Main {
                         case 4:
                             client.inquireStudentAvgScore();
                             break;
+                        case 5:
+                            client.inquireStudentAvgByStatus();
                     }
             }
         }
