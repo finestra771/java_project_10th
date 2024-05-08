@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 public class Client {
     private static List<Student> studentList = new ArrayList<>();
+
     // 1-1) 수강생 정보 등록
     public static void addStudentInfo() {
-
         ArrayList<Subject> subjects = new ArrayList<>();
         int stuID; //수강생 고유번호
         String name; //수강생 이름
@@ -15,7 +15,6 @@ public class Client {
         System.out.println("수강생 정보를 입력해주세요.");
 
         Scanner sc = new Scanner(System.in);
-
         while (true) {
             System.out.print("고유번호 : ");
             stuID = sc.nextInt();
@@ -27,20 +26,17 @@ public class Client {
                 break;
             }
         }
-
         System.out.print("이름 : ");
         name = sc.next();
         System.out.println();
 
-        selectMandatorySubjects(subjects, sc);  // 필수과목
-        selectOptionalSubjects(subjects, sc);  //선택과목
-
+        selectSubjects(subjects, sc, SubjectCode.MANDATORY);  // 필수과목
+        selectSubjects(subjects, sc, SubjectCode.CHOICE);  //선택과목
 
         for (Subject subject :subjects){
             System.out.print(subject.getSubjectName()+" ");
         }
         System.out.println();
-
 
         Subject[] subjectList=new Subject[subjects.size()];
         for(int i=0;i<subjects.size();i++){
@@ -51,66 +47,37 @@ public class Client {
         System.out.println("저장 완료");
     }
 
-    private static void selectMandatorySubjects(ArrayList<Subject> subjects, Scanner sc) {
-        System.out.println("<필수 과목 목록>");
+    private static void selectSubjects(ArrayList<Subject> subjects, Scanner sc, SubjectCode subjectCode) {
+        String subjectType = (subjectCode == SubjectCode.MANDATORY) ? "필수" : "선택";
+        System.out.println("<" + subjectType + " 과목 목록>");
         for (SubjectList subject : SubjectList.values()) {
-            if (subject.getOrder() <= 5) {
+            if ((subjectCode == SubjectCode.MANDATORY && subject.getOrder() <= 5) ||
+                    (subjectCode == SubjectCode.CHOICE && subject.getOrder() > 5)) {
                 System.out.println(subject.getOrder() + ". " + subject.getName());
             }
         }
-        System.out.println("필수과목 중 최소 3개를 선택해주세요 (선택완료 시 -1 입력)");
+        int minSelections = (subjectCode == SubjectCode.MANDATORY) ? 3 : 2;
+        System.out.println(subjectType + "과목 중 최소 " + minSelections + "개를 선택해주세요 (선택완료 시 -1 입력)");
         System.out.println();
 
-        int cnt1=0;
-        while(cnt1<=4){
-            System.out.print((cnt1+1) + "번째 과목번호 : ");
-            int select1 = sc.nextInt();
-
-            if (select1 == -1){
-                if(cnt1 < 3){
-                    System.out.println("아직 "+cnt1+"개의 과목만 선택하셨습니다. 최소 3개는 선택해야합니다.");
+        int cnt = 0;
+        while (cnt <= (minSelections+1)) {
+            System.out.print((cnt + 1) + "번째 과목번호 : ");
+            int select = sc.nextInt();
+            if (select == -1) {
+                if (cnt < minSelections) {
+                    System.out.println("아직 " + cnt + "개의 과목만 선택하셨습니다. 최소 " + minSelections + "개는 선택해야합니다.");
                     continue;
                 }
-                else
+                else {
                     break;
-            }
-
-            SubjectList selectedSubject = SubjectList.getSubjectByOrder(select1);
-            if (selectedSubject != null) {
-                subjects.add(new Subject(Integer.toString(selectedSubject.getOrder()), selectedSubject.name(), SubjectCode.MANDATORY));
-                cnt1++;
-            }
-        }
-    }
-
-    private static void selectOptionalSubjects(ArrayList<Subject> subjects, Scanner sc) {
-        System.out.println("<선택 과목 목록>");
-        for (SubjectList subject : SubjectList.values()) {
-            if (subject.getOrder() > 5) {
-                System.out.println(subject.getOrder() + ". " + subject.getName());
-            }
-        }
-        System.out.println("선택과목 중 최소 2개를 선택해주세요 (선택완료 시 -1 입력)");
-        System.out.println();
-
-        int cnt2=0;
-        while(cnt2<=3){
-            System.out.print((cnt2+1) + "번째 과목번호 : ");
-            int select2 = sc.nextInt();
-
-            if (select2 == -1){
-                if(cnt2 < 2){
-                    System.out.println("아직 "+cnt2+"개의 과목만 선택하셨습니다. 최소 3개는 선택해야합니다.");
-                    continue;
                 }
-                else
-                    break;
             }
 
-            SubjectList selectedSubject = SubjectList.getSubjectByOrder(select2);
+            SubjectList selectedSubject = SubjectList.getSubjectByOrder(select);
             if (selectedSubject != null) {
-                subjects.add(new Subject(Integer.toString(selectedSubject.getOrder()),selectedSubject.name(), SubjectCode.CHOICE));
-                cnt2++;
+                subjects.add(new Subject(selectedSubject.getOrder(), selectedSubject.name(), subjectCode));
+                cnt++;
             }
         }
     }
@@ -163,7 +130,6 @@ public class Client {
         else{
             System.out.println("리스트에 없는 학생입니다.");
         }
-        setStatus(studentID);
     }
 
     public static Student findStudentById(int studentID) {
@@ -173,7 +139,6 @@ public class Client {
         }
         return null;
     }
-
 
 
     @FunctionalInterface
@@ -224,10 +189,6 @@ public class Client {
     }
 
 
-
-
-
-
     // 2-1) 전체 수강생 목록 조회
     public static void printAllStudentInfo(){
         studentList.stream().forEach(student -> System.out.println(student.getStudentName()+" : "+student.getStudentID()));
@@ -253,7 +214,6 @@ public class Client {
     }
 
 
-
     // 2-2) 상태별 수강생 목록 조회
     public static void inquireStudentInfoByStatus(){
         Scanner sc = new Scanner(System.in);
@@ -265,15 +225,8 @@ public class Client {
             });
         }
     }
-    // 2-3)
-    public static void getScores(){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("전체 성적을 조회하고 싶은 학생의 번호를 입력하세요.");
-        int studentID=sc.nextInt();
-        Student student=findStudentById(studentID);
-        student.getScores();
-    }
-    // 2-4) 특정 상태 수강생들의 필수 과목 평균 등급 조회
+
+    // 2-3) 특정 상태 수강생들의 필수 과목 평균 등급 조회
     public static void inquireStudentAvgScore(){
         Scanner sc = new Scanner(System.in);
         System.out.println("평균 점수를 출력하고 싶은 학생의 번호를 입력하세요 : ");
@@ -281,29 +234,8 @@ public class Client {
             if(student.getStudentID()==sc.nextInt()){
                 StudentSubject studentSubject=new StudentSubject(student.getSubjectList(), student.getScoresList());
                 for (Subject subject : student.getSubjectList()) {
-                    studentSubject.inquireSubjectAverageScore(subject, student.getScoresByAray(subject));
+                    studentSubject.inquireSubjectAverageScore(subject, student.getScoresByArray(subject));
                 }
-            }
-        }
-    }
-    public static void setStatus(int studentID){
-        Student student=findStudentById(studentID);
-        ArrayList<Double> studentAverageScore=new ArrayList<>();
-        for (Subject subject : student.getSubjectList()) {
-            StudentSubject studentSubject=new StudentSubject(student.getSubjectList(), student.getScoresList());
-            for(Subject subject1:student.getSubjectList()){
-                studentAverageScore= studentSubject.subjectAverageScore(student.getScoresByAray(subject));
-            }
-        }
-        for(double score : studentAverageScore){
-            switch((int)score/10){
-                case 10: case 9:
-                    student.setStudentStatus(Status.GREEN);
-                    break;
-                case 8: case 7: case 6:
-                    student.setStudentStatus(Status.YELLOW);
-                    break;
-                default: student.setStudentStatus(Status.RED);
             }
         }
     }
