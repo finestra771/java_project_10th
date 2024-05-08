@@ -97,4 +97,12 @@ public class Student {
         }
         return res;
     }
+
+    public void setScoreListOne(int score, int round, SubjectList subject){
+        for(int i=0;i<subjectList.length;i++){
+            if(subjectList[i].getSubjectName().equals(subject.getName())){
+                scoresList[i][round]=new Score(subjectList[i].getSubjectName(), studentID, round, score);
+            }
+        }
+    }
 }

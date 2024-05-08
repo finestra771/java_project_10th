@@ -163,6 +163,7 @@ public class Client {
             System.out.println("수정할 항목을 입력하세요");
             System.out.println("1. 이름");
             System.out.println("2. 상태");
+            System.out.println("3. 성적");
 
             Scanner sc = new Scanner(System.in);
             StudentModifier modifier = null;
@@ -177,6 +178,15 @@ public class Client {
                     System.out.print("새로운 상태를 입력하세요 : ");
                     Status newStatus = Status.valueOf(sc.next());
                     modifier = student -> student.setStudentStatus(newStatus);
+                }
+                case 3 ->{
+                    System.out.print("새로운 성적의 과목명을 입력해주세요 : ");
+                    SubjectList subjectName=SubjectList.valueOf(sc.next());
+                    System.out.print("새로운 성적의 회차를 입력해주세요 : ");
+                    int subjectRound=sc.nextInt();
+                    System.out.print("새로운 성적을 입력해주세요 : ");
+                    int newScoreInt=sc.nextInt();
+                    modifier = student -> student.setScoreListOne(newScoreInt, subjectRound, subjectName);
                 }
             }
 
@@ -230,7 +240,6 @@ public class Client {
         Scanner sc = new Scanner(System.in);
         System.out.println("출력하고 싶은 학생의 상태를 입력하세요 : " );
         if(Arrays.stream(Status.values()).anyMatch(v -> v.name().equals(sc.next()))){
-            String status=sc.next();
             studentList.stream().forEach(student -> {
                 System.out.println(student.getScoresList().toString());
             });
@@ -282,6 +291,29 @@ public class Client {
         }
         else{
             System.out.println("데이터베이스에 없는 학생입니다.");
+        }
+    }
+    public static void inquireStudentAvgByStatus(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("필수 과목 평균 등급을 조회하고 싶은 상태를 입력하세요.");
+        Status studentStatus=Status.valueOf(sc.next());
+        inquireStudentInfoByStatus(studentStatus);
+    }
+    public static void inquireStudentInfoByStatus(Status studentStatus){
+        for (Student student1 : studentList) {
+            if (student1.getStudentStatus().equals(studentStatus)) {
+                studentList.stream().forEach(student -> {
+                    Score[][] scoresList1=student.getScoresList();
+                    for (Score[] scores : scoresList1) {
+                        ArrayList<Score> scoresArrayList=new ArrayList<>();
+                        StudentSubject subject=new StudentSubject(student1.getSubjectList(), scoresList1);
+                        for (Score score : scores) {
+                            scoresArrayList.add(score);
+                        }
+                        System.out.println(subject.subjectAverageScore(scoresArrayList));
+                    }
+                });
+            }
         }
     }
 }
