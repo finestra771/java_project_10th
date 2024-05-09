@@ -32,7 +32,7 @@ public class Main {
                     switch (sc.nextInt()) {
                         case 1:
                             client.printAllStudentInfo();
-                            System.out.println("조회하고 싶은 학생의 번호를 입력하세요 : ");
+                            System.out.print("조회하고 싶은 학생의 번호를 입력하세요 : ");
                             client.inquireStudentInfo(sc.nextInt());
                             break;
                         case 2:

@@ -28,11 +28,12 @@ public class Client {
         }
         System.out.print("이름 : ");
         name = sc.next();
-        System.out.println();
 
         selectSubjects(subjects, sc, SubjectCode.MANDATORY);  // 필수과목
         selectSubjects(subjects, sc, SubjectCode.CHOICE);  //선택과목
 
+        System.out.println();
+        System.out.print("수강 과목 목록 : ");
         for (Subject subject :subjects){
             System.out.print(subject.getSubjectName()+" ");
         }
@@ -45,10 +46,12 @@ public class Client {
 
         studentList.add(new Student(stuID, name, subjectList));
         System.out.println("저장 완료");
+        System.out.println();
     }
 
     private static void selectSubjects(ArrayList<Subject> subjects, Scanner sc, SubjectCode subjectCode) {
         String subjectType = (subjectCode == SubjectCode.MANDATORY) ? "필수" : "선택";
+        System.out.println();
         System.out.println("<" + subjectType + " 과목 목록>");
         for (SubjectList subject : SubjectList.values()) {
             if ((subjectCode == SubjectCode.MANDATORY && subject.getOrder() <= 5) ||
@@ -95,7 +98,7 @@ public class Client {
     // 1-2) 수강생 삭제 (점수까지 삭제)
     public static void deleteStudent() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("삭제하고 싶은 수강생의 번호를 입력하세요 : ");
+        System.out.print("삭제하고 싶은 수강생의 번호를 입력하세요 : ");
         int studentId = sc.nextInt();
         boolean flag=false;
         for (Student student : studentList) {
@@ -115,7 +118,7 @@ public class Client {
     // 1-3) 수강생 점수 등록
     public static void setStudentScore() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("성적을 세팅하고 싶은 수강생의 번호를 입력해주세요 : ");
+        System.out.print("성적을 세팅하고 싶은 수강생의 번호를 입력해주세요 : ");
         int studentID = sc.nextInt();
         boolean flag=false;
         for (Student student : studentList) {
@@ -125,17 +128,20 @@ public class Client {
         }
         if(flag){
             inquireStudentInfo(studentID);
-            System.out.println("성적을 세팅하시겠습니까? 예는 1, 아니요는 2를 입력하세요 :");
+            System.out.println("성적을 세팅하시겠습니까?");
+            System.out.print("예는 1, 아니요는 2를 입력하세요 : ");
             switch(sc.nextInt()){
                 case 1:
                     Student student=findStudentById(studentID);
                     StudentSubject studentSubject=new StudentSubject(student.getSubjectList(), student.getScoresList());
                     studentSubject.createSubjectRoundScore(studentList, studentID);
                     System.out.println("성적 저장 완료되었습니다.");
+                    System.out.println();
                     setStatus(studentID);
                     break;
                 case 2:
                     System.out.println("취소 완료되었습니다.");
+                    System.out.println();
             }
         }
         else{
@@ -229,6 +235,7 @@ public class Client {
 
     // 2-1) 전체 수강생 목록 조회
     public static void printAllStudentInfo(){
+        System.out.println("<전체 수강생 목록>");
         studentList.stream().forEach(student -> System.out.println(student.getStudentName()+" : "+student.getStudentID()));
     }
 
@@ -240,7 +247,8 @@ public class Client {
                     .forEach(student -> {System.out.println("[학생 정보]");
                         System.out.println("이름: " + student.getStudentName());
                         System.out.println("상태: " + student.getStudentStatus());
-                        System.out.println("수강 과목목록: " + student.subjectListtoString());});
+                        System.out.println("수강 과목 목록: " + student.subjectListtoString());
+                        System.out.println();});
         }
         else{
             System.out.println("존재하지 않는 번호입니다.");
@@ -255,7 +263,7 @@ public class Client {
     // 2-2) 상태별 수강생 목록 조회
     public static void inquireStudentInfoByStatus(){
         Scanner sc = new Scanner(System.in);
-        System.out.println("출력하고 싶은 학생의 상태를 입력하세요 : " );
+        System.out.print("출력하고 싶은 학생의 상태를 입력하세요 : " );
         for (Student student : studentList) {
             if(student.getStudentStatus().equals(sc.next())){
                 System.out.println(student.getStudentName()+" : "+student.getStudentID());
