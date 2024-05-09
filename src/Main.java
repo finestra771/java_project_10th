@@ -3,7 +3,6 @@ import java.util.*;
 
 public class Main {
         Client client = new Client();
-        //수강생 정보 조회
         Scanner sc = new Scanner(System.in);
     public void mainMethod(){
         while (true) {
