@@ -21,18 +21,20 @@ public class StudentSubject {
         for (Subject subject : student.getSubjectList()) {
             ArrayList<Score> scoreList=new ArrayList<>();
             for(int i=0;i<10;i++){
-//                System.out.println(subject.getSubjectName()+"의 "+(i+1)+"회차 성적을 입력해주세요 : ");
-//                int score=sc.nextInt();
-//                if(score<=100 && score>=0) {
-//                    scoreList.add(new Score(Integer.toString(subject.getSubjectNum()), studentID, i, score));
-//                }
-//                else{
-//                    System.out.println("잘못된 입력입니다.");
-//                    i--;
-//                }
-                Score score = new Score(Integer.toString(subject.getSubjectNum()), studentID, i, 1);
-                score.setSubjectNum(subject.getSubjectNum());
-                scoreList.add(score);
+                System.out.println(subject.getSubjectName()+"의 "+(i+1)+"회차 성적을 입력해주세요 : ");
+                int score=sc.nextInt();
+                if(score<=100 && score>=0) {
+                    Score scoreset=new Score(Integer.toString(subject.getSubjectNum()), studentID, i, score);
+                    scoreset.setSubjectNum(subject.getSubjectNum());
+                    scoreList.add(scoreset);
+                }
+                else{
+                    System.out.println("잘못된 입력입니다.");
+                    i--;
+                }
+//                Score score1 = new Score(Integer.toString(subject.getSubjectNum()), studentID, i, 1);
+//                score.setSubjectNum(subject.getSubjectNum());
+//                scoreList.add(score);
             }
             scoreList2.add(scoreList);
         }
