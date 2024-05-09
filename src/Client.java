@@ -333,20 +333,19 @@ public class Client {
         inquireStudentInfoByStatus(studentStatus);
     }
     public static void inquireStudentInfoByStatus(Status studentStatus){
-        for (Student student1 : studentList) {
-            if (student1.getStudentStatus().equals(studentStatus)) {
-                System.out.println(student1.getStudentName()+" : "+student1.getStudentID());
-                studentList.stream().forEach(student -> {
-                    Score[][] scoresList1=student.getScoresList();
-                    for (Score[] scores : scoresList1) {
-                        ArrayList<Score> scoresArrayList=new ArrayList<>();
-                        StudentSubject subject=new StudentSubject(student1.getSubjectList(), scoresList1);
-                        for (Score score : scores) {
-                            if(score.getSubjectCode()==SubjectCode.MANDATORY) scoresArrayList.add(score);
-                        }
-                        if(scores[0].getSubjectCode()==SubjectCode.MANDATORY) System.out.println(scores[0].getSubjectName()+" "+subject.mandatorySubjectAverageScore(scoresArrayList));
+        for (Student student : studentList) {
+            if (student.getStudentStatus().equals(studentStatus)) {
+                System.out.println(student.getStudentName() + " : " + student.getStudentID());
+                Score[][] scoresList = student.getScoresList();
+                StudentSubject subject = new StudentSubject(student.getSubjectList(), scoresList);
+                for (Score[] scores : scoresList) {
+                    ArrayList<Score> scoresArrayList = new ArrayList<>(Arrays.asList(scores));
+                    scoresArrayList.removeIf(score -> score.getSubjectCode() != SubjectCode.MANDATORY);
+                    if (!scoresArrayList.isEmpty()) {
+                        ArrayList<Double> averageScore = subject.mandatorySubjectAverageScore(scoresArrayList);
+                        System.out.println(scores[0].getSubjectName() + " " + averageScore);
                     }
-                });
+                }
             }
         }
     }
