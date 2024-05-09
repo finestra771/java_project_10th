@@ -70,16 +70,6 @@ public class Score {
         this.score = score;
     }
 
-    //점수 등록 메소드
-    public void setScore(int score) {
-        setScoreScale(score);
-    }
-
-    //등급 수정 메소드
-    public void setScoreScale(String scoreScale) {
-        this.scoreScale = scoreScale;
-    }
-
     public int getScore() {
         return this.score;
     }
