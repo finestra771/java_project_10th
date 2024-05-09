@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Student {
     private int studentID; //수강생 고유번호
@@ -14,13 +13,8 @@ public class Student {
         this.subjectList = subjectList;
     }
 
-    // Getter & Setter
     public int getStudentID() {
         return studentID;
-    }
-
-    public void setStudentID(int studentID) {
-        this.studentID = studentID;
     }
 
     public String getStudentName() {
@@ -66,6 +60,7 @@ public class Student {
         return scores;
     }
 
+    //수강생의 전체 성적 반환
     public String getScores() {
         String res="";
         int index=0;
@@ -87,6 +82,7 @@ public class Student {
         }
     }
 
+    // 수강 과목 목록 반환
     public String subjectListtoString(){
         String res="";
         for(Subject s : subjectList){
@@ -95,6 +91,7 @@ public class Student {
         return res;
     }
 
+    // 해당 회차의 해당 과목 성적 수정
     public void setScoreListOne(int score, int round, SubjectList subject){
         for(int i=0;i<subjectList.length;i++){
             if(subjectList[i].getSubjectName().equals(subject.getName())){

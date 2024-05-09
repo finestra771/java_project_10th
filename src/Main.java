@@ -4,7 +4,6 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         Client client = new Client();
-        //수강생 정보 조회
         Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("수강생 관리 메뉴는 1, 조회 메뉴는 2를 입력하세요");
