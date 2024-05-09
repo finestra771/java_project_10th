@@ -25,7 +25,7 @@ public class StudentSubject {
                 int score=sc.nextInt();
                 if(score<=100 && score>=0) {
                     Score scoreset=new Score(Integer.toString(subject.getSubjectNum()), studentID, i, score);
-                    scoreset.setSubjectNum(subject.getSubjectNum());
+                    scoreset.setSubjectCode(subject.getSubjectNum());
                     scoreList.add(scoreset);
                 }
                 else{
