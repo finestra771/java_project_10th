@@ -264,8 +264,9 @@ public class Client {
     public static void inquireStudentInfoByStatus(){
         Scanner sc = new Scanner(System.in);
         System.out.print("출력하고 싶은 학생의 상태를 입력하세요 : " );
+        Status status=Status.valueOf(sc.next());
         for (Student student : studentList) {
-            if(student.getStudentStatus().equals(sc.next())){
+            if(student.getStudentStatus()==status){
                 System.out.println(student.getStudentName()+" : "+student.getStudentID());
             }
         }
@@ -336,7 +337,7 @@ public class Client {
                         for (Score score : scores) {
                             if(score.getSubjectCode()==SubjectCode.MANDATORY) scoresArrayList.add(score);
                         }
-                        if(scores[0].getSubjectCode()==SubjectCode.MANDATORY) System.out.println(subject.mandatorySubjectAverageScore(scoresArrayList));
+                        if(scores[0].getSubjectCode()==SubjectCode.MANDATORY) System.out.println(scores[0].getSubjectName()+" "+subject.mandatorySubjectAverageScore(scoresArrayList));
                     }
                 });
             }
