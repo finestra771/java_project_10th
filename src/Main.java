@@ -2,9 +2,9 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
         Client client = new Client();
         Scanner sc = new Scanner(System.in);
+    public void mainMethod(){
         while (true) {
             System.out.println("수강생 관리 메뉴는 1, 조회 메뉴는 2를 입력하세요");
             switch (sc.nextInt()) {
@@ -48,6 +48,6 @@ public class Main {
                     }
             }
         }
-    }
 
-}
+        }
+    }

@@ -1,3 +1,8 @@
+package Model;
+
+import Enum.Status;
+import Enum.SubjectList;
+
 import java.util.ArrayList;
 
 public class Student {
@@ -13,8 +18,13 @@ public class Student {
         this.subjectList = subjectList;
     }
 
+    // Getter & Setter
     public int getStudentID() {
         return studentID;
+    }
+
+    public void setStudentID(int studentID) {
+        this.studentID = studentID;
     }
 
     public String getStudentName() {
@@ -45,16 +55,16 @@ public class Student {
         this.scoresList = scoresList;
     }
 
-    public ArrayList<Score> getScoresByArray(Subject subject){
+    public ArrayList<Score> getScoresByArray(Subject subject) {
         ArrayList<Score> scores = new ArrayList<>();
-        int index=0;
-        for (Subject subject1 : subjectList){
-            if(subject1.getSubjectName().equals(subject.getSubjectName())){
+        int index = 0;
+        for (Subject subject1 : subjectList) {
+            if (subject1.getSubjectName().equals(subject.getSubjectName())) {
                 break;
             }
             index++;
         }
-        for(Score score : scoresList[index]){
+        for (Score score : scoresList[index]) {
             scores.add(score);
         }
         return scores;
@@ -62,40 +72,39 @@ public class Student {
 
     //수강생의 전체 성적 반환
     public String getScores() {
-        String res="";
-        int index=0;
-        if(scoresList!=null){
-            for(Score[] score : scoresList){
-                res=res+subjectList[index].getSubjectName()+" ";
-                for(Score s : score){
-                    res=res+s.getScoretoString()+" ";
-                    res+=s.getScoreScale()+" ";
+        String res = "";
+        int index = 0;
+        if (scoresList != null) {
+            for (Score[] score : scoresList) {
+                res = res + subjectList[index].getSubjectName() + " ";
+                for (Score s : score) {
+                    res = res + s.getScoretoString() + " ";
+                    res += s.getScoreScale() + " ";
                 }
-                res+="\n";
+                res += "\n";
                 index++;
             }
             return res;
-        }
-        else{
+        } else {
             System.out.println("성적을 입력한 뒤 실행해주세요.");
             return "";
         }
     }
 
     // 수강 과목 목록 반환
-    public String subjectListtoString(){
-        String res="";
-        for(Subject s : subjectList){
-            res=res+s.getSubjectName()+" ";
+    public String subjectListtoString() {
+        String res = "";
+        for (Subject s : subjectList) {
+            res = res + s.getSubjectName() + " ";
         }
         return res;
     }
 
     // 해당 회차의 해당 과목 성적 수정
-    public void setScoreListOne(int score, int round, SubjectList subject){
-        for(int i=0;i<subjectList.length;i++){
-            if(subjectList[i].getSubjectName().equals(subject.getName())){
-                scoresList[i][round]=new Score(subjectList[i].getSubjectName(), studentID, round, score);
+    public void setScoreListOne(int score, int round, SubjectList subject) {
+        for (int i = 0; i < subjectList.length; i++) {
+            if (subjectList[i].getSubjectName().equals(subject.getName())) {
+                scoresList[i][round] = new Score(subjectList[i].getSubjectName(), studentID, round, score);
             }
         }
     }
