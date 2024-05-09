@@ -351,7 +351,7 @@ public class Client {
                         scoresArrayList.removeIf(score -> score.getSubjectCode() != SubjectCode.MANDATORY);
                         if (!scoresArrayList.isEmpty()) {
                             ArrayList<Double> averageScore = subject.mandatorySubjectAverageScore(scoresArrayList);
-                            System.out.println(scores[0].getSubjectName() + " " + averageScore);
+                            System.out.println(scores[0].getSubjectNum() + " " + averageScore);
                         }
                     }
                 }

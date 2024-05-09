@@ -20,9 +20,8 @@ public class Score {
         setScoreScale(score); // 객체 생성 시점 => 점수 => 등급 변경 메서드 호출
     }
 
-    public String getSubjectName() {
-        SubjectList subjectCode1 = SubjectList.getSubjectByOrder(Integer.parseInt(subjectNum));
-        return subjectCode1.name();
+    public String getSubjectNum() {
+        return subjectNum;
     }
 
     public void setSubjectNum(int subjectNum) {
