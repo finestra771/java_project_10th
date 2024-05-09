@@ -334,16 +334,18 @@ public class Client {
     }
     public static void inquireStudentInfoByStatus(Status studentStatus){
         for (Student student : studentList) {
-            if (student.getStudentStatus().equals(studentStatus)) {
-                System.out.println(student.getStudentName() + " : " + student.getStudentID());
-                Score[][] scoresList = student.getScoresList();
-                StudentSubject subject = new StudentSubject(student.getSubjectList(), scoresList);
-                for (Score[] scores : scoresList) {
-                    ArrayList<Score> scoresArrayList = new ArrayList<>(Arrays.asList(scores));
-                    scoresArrayList.removeIf(score -> score.getSubjectCode() != SubjectCode.MANDATORY);
-                    if (!scoresArrayList.isEmpty()) {
-                        ArrayList<Double> averageScore = subject.mandatorySubjectAverageScore(scoresArrayList);
-                        System.out.println(scores[0].getSubjectName() + " " + averageScore);
+            if(student.getStudentStatus()!=null){
+                if (student.getStudentStatus().equals(studentStatus)) {
+                    System.out.println(student.getStudentName() + " : " + student.getStudentID());
+                    Score[][] scoresList = student.getScoresList();
+                    StudentSubject subject = new StudentSubject(student.getSubjectList(), scoresList);
+                    for (Score[] scores : scoresList) {
+                        ArrayList<Score> scoresArrayList = new ArrayList<>(Arrays.asList(scores));
+                        scoresArrayList.removeIf(score -> score.getSubjectCode() != SubjectCode.MANDATORY);
+                        if (!scoresArrayList.isEmpty()) {
+                            ArrayList<Double> averageScore = subject.mandatorySubjectAverageScore(scoresArrayList);
+                            System.out.println(scores[0].getSubjectName() + " " + averageScore);
+                        }
                     }
                 }
             }
