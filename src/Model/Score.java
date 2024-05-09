@@ -1,4 +1,7 @@
-import java.util.Objects;
+package Model;
+
+import Enum.SubjectCode;
+import Enum.SubjectList;
 
 public class Score {
 
@@ -17,53 +20,50 @@ public class Score {
         setScoreScale(score); // 객체 생성 시점 => 점수 => 등급 변경 메서드 호출
     }
 
-    // 과목코드를 통해 과목의 이름 알아내는 메서드
-    public String getSubjectName(){
-        SubjectList subjectCode1=SubjectList.getSubjectByOrder(Integer.parseInt(subjectNum));
-        return subjectCode1.name();
+    public String getSubjectNum() {
+        return subjectNum;
     }
 
-    // 해당 과목이 필수/선택 반환
-    public void setSubjectCode(int subjectNum){
-        SubjectList subject=SubjectList.getSubjectByOrder(subjectNum);
-        if(subject.getSubjectCode()==SubjectCode.MANDATORY) this.subjectCode=SubjectCode.MANDATORY;
-        else this.subjectCode=SubjectCode.CHOICE;
+    public void setSubjectNum(int subjectNum) {
+        SubjectList subject = SubjectList.getSubjectByOrder(subjectNum);
+        if (subject.getSubjectCode() == SubjectCode.MANDATORY) this.subjectCode = SubjectCode.MANDATORY;
+        else this.subjectCode = SubjectCode.CHOICE;
     }
 
-    // getter
     public SubjectCode getSubjectCode() {
         return subjectCode;
     }
 
     /**
      * 등급 변경 메서드
+     *
      * @param score : 점수
      */
     public void setScoreScale(int score) {
-        if(subjectCode == SubjectCode.MANDATORY){
-            if(score >= 95 && score <= 100) {
+        if (subjectCode == SubjectCode.MANDATORY) {
+            if (score >= 95 && score <= 100) {
                 this.scoreScale = "A";
-            } else if(score >= 90 && score <= 94) {
+            } else if (score >= 90 && score <= 94) {
                 this.scoreScale = "B";
-            } else if(score >= 80 && score <= 89) {
+            } else if (score >= 80 && score <= 89) {
                 this.scoreScale = "C";
-            } else if(score >= 70 && score <= 79) {
+            } else if (score >= 70 && score <= 79) {
                 this.scoreScale = "D";
-            } else if(score >= 60 && score <= 69) {
+            } else if (score >= 60 && score <= 69) {
                 this.scoreScale = "F";
             } else {
                 this.scoreScale = "N";
             }
         } else {
-            if(score >= 90 && score <= 100) {
+            if (score >= 90 && score <= 100) {
                 this.scoreScale = "A";
-            } else if(score >= 80 && score <= 89) {
+            } else if (score >= 80 && score <= 89) {
                 this.scoreScale = "B";
-            } else if(score >= 70 && score <= 79) {
+            } else if (score >= 70 && score <= 79) {
                 this.scoreScale = "C";
-            } else if(score >= 60 && score <= 69) {
+            } else if (score >= 60 && score <= 69) {
                 this.scoreScale = "D";
-            } else if(score >= 50 && score <= 59) {
+            } else if (score >= 50 && score <= 59) {
                 this.scoreScale = "F";
             } else {
                 this.scoreScale = "N";
@@ -76,10 +76,12 @@ public class Score {
     public int getScore() {
         return this.score;
     }
+
     public String getScoreScale() {
         return this.scoreScale;
     }
-    public String getScoretoString(){
+
+    public String getScoretoString() {
         return Integer.toString(this.score);
     }
     //등급 세팅 메소드

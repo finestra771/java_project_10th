@@ -1,3 +1,5 @@
+package Enum;
+
 public enum SubjectList {  //과목 목록
     Java(1, SubjectCode.MANDATORY, "Java"),
     객체지향(2, SubjectCode.MANDATORY, "객체지향"),
@@ -5,9 +7,9 @@ public enum SubjectList {  //과목 목록
     JPA(4, SubjectCode.MANDATORY, "JPA"),
     MySQL(5, SubjectCode.MANDATORY, "MySQL"),
     디자인패턴(6, SubjectCode.CHOICE, "디자인패턴"),
-    SpringSecurity(7,  SubjectCode.CHOICE, "SpringSecurity"),
-    Redis(8,  SubjectCode.CHOICE, "Redis"),
-    MongoDB(9,  SubjectCode.CHOICE, "MongoDB");
+    SpringSecurity(7, SubjectCode.CHOICE, "SpringSecurity"),
+    Redis(8, SubjectCode.CHOICE, "Redis"),
+    MongoDB(9, SubjectCode.CHOICE, "MongoDB");
 
     private final int order;
     private final SubjectCode subjectCode;

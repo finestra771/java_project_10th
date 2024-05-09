@@ -1,3 +1,8 @@
+package Model;
+
+import Enum.SubjectCode;
+import Enum.SubjectList;
+
 public class Subject {
     private int subjectNum; //고유 번호
     private String subjectName; // 과목명
