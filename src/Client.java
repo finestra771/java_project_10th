@@ -171,6 +171,7 @@ public class Client {
     // 1-4) 수강생 정보 수정 (이름/상태)
     public static void modifyStudentInfo(int studentID) {
         if(findStudentByID(studentID)) {
+            inquireStudentInfo(studentID);
             System.out.println("수정할 항목의 번호를 입력하세요");
             System.out.println("1. 이름");
             System.out.println("2. 상태");
@@ -198,7 +199,7 @@ public class Client {
                     int subjectRound=sc.nextInt();
                     System.out.print("새로운 성적을 입력해주세요 : ");
                     int newScoreInt=sc.nextInt();
-                    modifier = student -> student.setScoreListOne(newScoreInt, subjectRound, subjectName);
+                    modifier = student -> student.setScoreListOne(newScoreInt, subjectRound-1, subjectName);
                 }
                 case 4 -> {
                     System.out.println("교체할 과목명을 입력하세요.");
