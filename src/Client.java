@@ -108,10 +108,10 @@ public class Client {
             }
         }
         if(flag){
-            System.out.println("수강생 삭제가 완료되었습니다.");
+            System.out.println("수강생 삭제가 완료되었습니다.\n");
         }
         else{
-            System.out.println("목록에 없는 번호입니다. 다시 입력하세요.");
+            System.out.println("목록에 없는 번호입니다. 다시 입력하세요.\n");
         }
     }
 
@@ -135,17 +135,15 @@ public class Client {
                     Student student=findStudentById(studentID);
                     StudentSubject studentSubject=new StudentSubject(student.getSubjectList(), student.getScoresList());
                     studentSubject.createSubjectRoundScore(studentList, studentID);
-                    System.out.println("성적 저장 완료되었습니다.");
-                    System.out.println();
+                    System.out.println("성적 저장 완료되었습니다.\n");
                     setStatus(studentID);
                     break;
                 case 2:
-                    System.out.println("취소 완료되었습니다.");
-                    System.out.println();
+                    System.out.println("취소 완료되었습니다.\n");
             }
         }
         else{
-            System.out.println("리스트에 없는 학생입니다.");
+            System.out.println("리스트에 없는 학생입니다.\n");
         }
     }
 
@@ -166,7 +164,7 @@ public class Client {
     // 1-4) 수강생 정보 수정 (이름/상태)
     public static void modifyStudentInfo(int studentID) {
         if(findStudentByID(studentID)) {
-            System.out.println("수정할 항목을 입력하세요");
+            System.out.println("수정할 항목의 번호를 입력하세요");
             System.out.println("1. 이름");
             System.out.println("2. 상태");
             System.out.println("3. 성적");
@@ -215,14 +213,14 @@ public class Client {
 
             if (modifier != null) {
                 modifyStudent(studentID, modifier);
-                System.out.println("수정이 완료되었습니다.");
+                System.out.println("수정이 완료되었습니다.\n");
             } else {
-                System.out.println("올바른 선택이 아닙니다.");
+                System.out.println("올바른 선택이 아닙니다.\n");
             }
         }
 
         else {
-            System.out.println("존재하지 않는 번호입니다.");
+            System.out.println("존재하지 않는 번호입니다.\n");
         }
     }
 
@@ -251,7 +249,7 @@ public class Client {
                         System.out.println();});
         }
         else{
-            System.out.println("존재하지 않는 번호입니다.");
+            System.out.println("존재하지 않는 번호입니다.\n");
         }
     }
 
@@ -274,7 +272,7 @@ public class Client {
     // 2-3) 특정 상태 수강생들의 필수 과목 평균 등급 조회
     public static void inquireStudentAvgScore(){
         Scanner sc = new Scanner(System.in);
-        System.out.println("평균 점수를 출력하고 싶은 학생의 번호를 입력하세요 : ");
+        System.out.print("평균 점수를 출력하고 싶은 학생의 번호를 입력하세요 : ");
         for(Student student : studentList){
             if(student.getStudentID()==sc.nextInt()){
                 StudentSubject studentSubject=new StudentSubject(student.getSubjectList(), student.getScoresList());
@@ -308,19 +306,19 @@ public class Client {
 
     public static void getScores(){
         Scanner sc = new Scanner(System.in);
-        System.out.println("전체 성적을 출력하고 싶은 학생의 번호를 입력해주세요.");
+        System.out.print("전체 성적을 출력하고 싶은 학생의 번호를 입력해주세요 : ");
         int studentID=sc.nextInt();
         Student student=findStudentById(studentID);
         if(student!=null){
             System.out.println(student.getScores());
         }
         else{
-            System.out.println("데이터베이스에 없는 학생입니다.");
+            System.out.println("데이터베이스에 없는 학생입니다.\n");
         }
     }
     public static void inquireStudentAvgByStatus(){
         Scanner sc = new Scanner(System.in);
-        System.out.println("필수 과목 평균 등급을 조회하고 싶은 상태를 입력하세요.");
+        System.out.print("필수 과목 평균 등급을 조회하고 싶은 상태를 입력하세요 (RED / YELLOW / GREEN) : ");
         Status studentStatus=Status.valueOf(sc.next());
         inquireStudentInfoByStatus(studentStatus);
     }

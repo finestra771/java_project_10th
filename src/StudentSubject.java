@@ -21,7 +21,7 @@ public class StudentSubject {
         for (Subject subject : student.getSubjectList()) {
             ArrayList<Score> scoreList=new ArrayList<>();
             for(int i=0;i<10;i++){
-                System.out.println(subject.getSubjectName()+"의 "+(i+1)+"회차 성적을 입력해주세요 : ");
+                System.out.print(subject.getSubjectName()+"의 "+(i+1)+"회차 성적을 입력해주세요 : ");
                 int score=sc.nextInt();
                 if(score<=100 && score>=0) {
                     Score scoreset=new Score(Integer.toString(subject.getSubjectNum()), studentID, i, score);
@@ -99,8 +99,9 @@ public class StudentSubject {
     public void inquireSubjectAverageScore(Subject subject, ArrayList<Score> scoreList) {
         ArrayList<Double> averageScoreList = subjectAverageScore(scoreList);
         for (int i=0;i<averageScoreList.size();i++) {
-            System.out.println(subject.getSubjectName() + "의 평균 성적은" + averageScoreList.get(i) + "입니다.");
+            System.out.println(subject.getSubjectName() + "의 평균 성적은 " + averageScoreList.get(i) + "점입니다.");
         }
+        System.out.println();
     }
 
 
