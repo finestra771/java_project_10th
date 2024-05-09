@@ -22,7 +22,7 @@ public class Main {
                             client.setStudentScore();
                             break;
                         case 4:
-                            System.out.println("정보를 변경하고 싶은 싶은 학생의 번호를 입력하세요 : ");
+                            System.out.print("정보를 변경하고 싶은 싶은 학생의 번호를 입력하세요 : ");
                             client.modifyStudentInfo(sc.nextInt());
                             break;
                     }
