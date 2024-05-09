@@ -32,9 +32,6 @@ public class StudentSubject {
                     System.out.println("잘못된 입력입니다.");
                     i--;
                 }
-//                Score score1 = new Score(Integer.toString(subject.getSubjectNum()), studentID, i, 1);
-//                score.setSubjectNum(subject.getSubjectNum());
-//                scoreList.add(score);
             }
             scoreList2.add(scoreList);
         }
@@ -46,6 +43,7 @@ public class StudentSubject {
         }
         student.setScoresList(scores);
     }
+
     public Student findStudentById(List<Student> studentList, int studentID) {
         for (Student student : studentList) {
             if(student.getStudentID() == studentID)
@@ -64,7 +62,6 @@ public class StudentSubject {
         // 스코어, 라운드 제한사항 [[[[[추가]]]]]
     }
 
-
     //수강생의 과목별 평균 등급
     public ArrayList<Double> subjectAverageScore(ArrayList<Score> scoreList) {
         ArrayList<Double> averageScoreList = new ArrayList<>();
@@ -80,6 +77,7 @@ public class StudentSubject {
         return averageScoreList;
         // 어레이리스트 만들고 리턴하는거 [[[[[추가]]]]]
     }
+
     public ArrayList<Double> mandatorySubjectAverageScore(ArrayList<Score> scoreList) {
         ArrayList<Double> averageScoreList = new ArrayList<>();
         double scoreSum = 0;
@@ -102,7 +100,6 @@ public class StudentSubject {
             System.out.println(subject.getSubjectName() + "의 평균 성적은 " + averageScoreList.get(i) + "점입니다.");
         }
     }
-
 
     //수강생의 특정 과목 회차별 등급 조회
     public void inquireSubjectRoundScore(Score score) {

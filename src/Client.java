@@ -49,6 +49,7 @@ public class Client {
         System.out.println();
     }
 
+    // 과목 선택 메소드 (필수/선택에 따라)
     private static void selectSubjects(ArrayList<Subject> subjects, Scanner sc, SubjectCode subjectCode) {
         String subjectType = (subjectCode == SubjectCode.MANDATORY) ? "필수" : "선택";
         System.out.println();
@@ -91,12 +92,13 @@ public class Client {
             SubjectList selectedSubject = SubjectList.getSubjectByOrder(select);
             if (selectedSubject != null) {
                 subjects.add(new Subject(selectedSubject.getOrder(), selectedSubject.name(), subjectCode));
-                selectedNumbers.add(select); // 선택한 과목 번호 기록
+                selectedNumbers.add(select);
                 cnt++;
             }
         }
     }
 
+    // 유효한 과목 넘버인지 확인
     private static boolean isValidSubjectNumber(int select, SubjectCode subjectCode) {
         return (subjectCode == SubjectCode.MANDATORY && select >= 1 && select <= 5) ||
                 (subjectCode == SubjectCode.CHOICE && select >= 6 && select <= 9);
@@ -155,6 +157,30 @@ public class Client {
         }
     }
 
+    // 성적에 따른 학생의 상태 설정
+    public static void setStatus(int studentID){
+        Student student=findStudentById(studentID);
+        ArrayList<Double> studentAverageScore=new ArrayList<>();
+        for (Subject subject : student.getSubjectList()) {
+            StudentSubject studentSubject=new StudentSubject(student.getSubjectList(), student.getScoresList());
+            for(Subject subject1:student.getSubjectList()){
+                studentAverageScore= studentSubject.subjectAverageScore(student.getScoresByArray(subject));
+            }
+        }
+        for(double score : studentAverageScore){
+            switch((int)score/10){
+                case 10: case 9:
+                    student.setStudentStatus(Status.GREEN);
+                    break;
+                case 8: case 7: case 6:
+                    student.setStudentStatus(Status.YELLOW);
+                    break;
+                default: student.setStudentStatus(Status.RED);
+            }
+        }
+    }
+
+    // 학생리스트에서 해당 아이디를 가진 학생 객체 반환
     public static Student findStudentById(int studentID) {
         for (Student student : studentList) {
             if(student.getStudentID() == studentID)
@@ -163,7 +189,7 @@ public class Client {
         return null;
     }
 
-
+    //함수형 인터페이스
     @FunctionalInterface
     interface StudentModifier {
         void modify(Student student);
@@ -233,6 +259,7 @@ public class Client {
         }
     }
 
+    // 해당 아이디를 가진 학생 찾아 정보 수정
     public static void modifyStudent(int studentID, StudentModifier modifier) {
         studentList.stream()
                 .filter(student -> student.getStudentID() == studentID)
@@ -262,10 +289,10 @@ public class Client {
         }
     }
 
+    // 학생 리스트에 해당 아이디를 가진 학생 있는지 확인
     public static boolean findStudentByID(int studentID) {
         return studentList.stream().anyMatch(student -> student.getStudentID() == studentID);
     }
-
 
     // 2-2) 상태별 수강생 목록 조회
     public static void inquireStudentInfoByStatus(){
@@ -279,41 +306,7 @@ public class Client {
         }
     }
 
-    // 2-3) 특정 상태 수강생들의 필수 과목 평균 등급 조회
-    public static void inquireStudentAvgScore(){
-        Scanner sc = new Scanner(System.in);
-        System.out.print("평균 점수를 출력하고 싶은 학생의 번호를 입력하세요 : ");
-        for(Student student : studentList){
-            if(student.getStudentID()==sc.nextInt()){
-                StudentSubject studentSubject=new StudentSubject(student.getSubjectList(), student.getScoresList());
-                for (Subject subject : student.getSubjectList()) {
-                    studentSubject.inquireSubjectAverageScore(subject, student.getScoresByArray(subject));
-                }
-            }
-        }
-    }
-    public static void setStatus(int studentID){
-        Student student=findStudentById(studentID);
-        ArrayList<Double> studentAverageScore=new ArrayList<>();
-        for (Subject subject : student.getSubjectList()) {
-            StudentSubject studentSubject=new StudentSubject(student.getSubjectList(), student.getScoresList());
-            for(Subject subject1:student.getSubjectList()){
-                studentAverageScore= studentSubject.subjectAverageScore(student.getScoresByArray(subject));
-            }
-        }
-        for(double score : studentAverageScore){
-            switch((int)score/10){
-                case 10: case 9:
-                    student.setStudentStatus(Status.GREEN);
-                    break;
-                case 8: case 7: case 6:
-                    student.setStudentStatus(Status.YELLOW);
-                    break;
-                default: student.setStudentStatus(Status.RED);
-            }
-        }
-    }
-
+    // 2-3) 특정 수강생의 전체 성적 조회
     public static void getScores(){
         Scanner sc = new Scanner(System.in);
         System.out.print("전체 성적을 출력하고 싶은 학생의 번호를 입력해주세요 : ");
@@ -326,12 +319,30 @@ public class Client {
             System.out.println("데이터베이스에 없는 학생입니다.\n");
         }
     }
+
+    // 2-4) 특정 상태 수강생들의 필수 과목 평균 등급 조회
+    public static void inquireStudentAvgScore(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("평균 점수를 출력하고 싶은 학생의 번호를 입력하세요 : ");
+        for(Student student : studentList){
+            if(student.getStudentID()==sc.nextInt()){
+                StudentSubject studentSubject=new StudentSubject(student.getSubjectList(), student.getScoresList());
+                for (Subject subject : student.getSubjectList()) {
+                    studentSubject.inquireSubjectAverageScore(subject, student.getScoresByArray(subject));
+                }
+            }
+        }
+    }
+
+    // 2-5) 특정 상태 수강생들의 필수 과목 평균 등급 조회
     public static void inquireStudentAvgByStatus(){
         Scanner sc = new Scanner(System.in);
         System.out.print("필수 과목 평균 등급을 조회하고 싶은 상태를 입력하세요 (RED / YELLOW / GREEN) : ");
         Status studentStatus=Status.valueOf(sc.next());
         inquireStudentInfoByStatus(studentStatus);
     }
+
+    // 해당 상태 수강생들의 필수 과목 평균 등급 조회
     public static void inquireStudentInfoByStatus(Status studentStatus){
         for (Student student : studentList) {
             if (student.getStudentStatus().equals(studentStatus)) {

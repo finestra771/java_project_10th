@@ -1,4 +1,4 @@
-public enum SubjectList {
+public enum SubjectList {  //과목 목록
     Java(1, SubjectCode.MANDATORY, "Java"),
     객체지향(2, SubjectCode.MANDATORY, "객체지향"),
     Spring(3, SubjectCode.MANDATORY, "Spring"),
@@ -9,9 +9,9 @@ public enum SubjectList {
     Redis(8,  SubjectCode.CHOICE, "Redis"),
     MongoDB(9,  SubjectCode.CHOICE, "MongoDB");
 
-    private final int order;
-    private final SubjectCode subjectCode;
-    private final String name;
+    private final int order;  //과목번호
+    private final SubjectCode subjectCode;  //과목유형 (필수/선택)
+    private final String name;  //과목이름
 
     private SubjectList(int order, SubjectCode subjectCode, String name) {
         this.order = order;
@@ -31,6 +31,7 @@ public enum SubjectList {
         return name;
     }
 
+    // 해당 과목 코드를 가지는 subject 찾아 반환
     public static SubjectList getSubjectByOrder(int order) {
         for (SubjectList subject : values()) {
             if (subject.getOrder() == order) {
