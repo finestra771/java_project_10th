@@ -1,5 +1,3 @@
-import java.util.Objects;
-
 public class Score {
 
     private String subjectNum; //과목 고유번호
@@ -17,17 +15,20 @@ public class Score {
         setScoreScale(score); // 객체 생성 시점 => 점수 => 등급 변경 메서드 호출
     }
 
+    // 과목코드를 통해 과목의 이름 알아내는 메서드
     public String getSubjectName(){
         SubjectList subjectCode1=SubjectList.getSubjectByOrder(Integer.parseInt(subjectNum));
         return subjectCode1.name();
     }
 
-    public void setSubjectNum(int subjectNum){
+    // 해당 과목이 필수/선택 반환
+    public void setSubjectCode(int subjectNum){
         SubjectList subject=SubjectList.getSubjectByOrder(subjectNum);
         if(subject.getSubjectCode()==SubjectCode.MANDATORY) this.subjectCode=SubjectCode.MANDATORY;
         else this.subjectCode=SubjectCode.CHOICE;
     }
 
+    // getter
     public SubjectCode getSubjectCode() {
         return subjectCode;
     }
