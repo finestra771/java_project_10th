@@ -24,13 +24,15 @@ public class StudentSubject {
 //                System.out.println(subject.getSubjectName()+"의 "+(i+1)+"회차 성적을 입력해주세요 : ");
 //                int score=sc.nextInt();
 //                if(score<=100 && score>=0) {
-//                    scoreList.add(new Score(subject.getSubjectNum(), studentID, i, score));
+//                    scoreList.add(new Score(Integer.toString(subject.getSubjectNum()), studentID, i, score));
 //                }
 //                else{
 //                    System.out.println("잘못된 입력입니다.");
 //                    i--;
 //                }
-                scoreList.add(new Score(subject.getSubjectNum(), studentID, i, 1));
+                Score score = new Score(Integer.toString(subject.getSubjectNum()), studentID, i, 1);
+                score.setSubjectNum(subject.getSubjectNum());
+                scoreList.add(score);
             }
             scoreList2.add(scoreList);
         }
@@ -69,12 +71,27 @@ public class StudentSubject {
         for (Score i : scoreList) {
             scoreSum += i.getScore();
         }
-        result = scoreSum / scoreList.size();
+        if(scoreList.size()!=0){
+            result = scoreSum / scoreList.size();
+        }
         averageScoreList.add(result);
         return averageScoreList;
         // 어레이리스트 만들고 리턴하는거 [[[[[추가]]]]]
     }
-
+    public ArrayList<Double> mandatorySubjectAverageScore(ArrayList<Score> scoreList) {
+        ArrayList<Double> averageScoreList = new ArrayList<>();
+        double scoreSum = 0;
+        double result = 0;
+        for (Score i : scoreList) {
+            scoreSum += i.getScore();
+        }
+        if(scoreList.size()!=0){
+            result = scoreSum / scoreList.size();
+        }
+        if(result!=0) averageScoreList.add(result);
+        return averageScoreList;
+        // 어레이리스트 만들고 리턴하는거 [[[[[추가]]]]]
+    }
 
     //수강생의 과목별 평균 등급 조회하는 메서드 [[[[[추가]]]]]
     public void inquireSubjectAverageScore(Subject subject, ArrayList<Score> scoreList) {

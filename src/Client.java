@@ -81,7 +81,7 @@ public class Client {
 
             SubjectList selectedSubject = SubjectList.getSubjectByOrder(select);
             if (selectedSubject != null) {
-                subjects.add(new Subject(Integer.toString(selectedSubject.getOrder()), selectedSubject.name(), subjectCode));
+                subjects.add(new Subject(selectedSubject.getOrder(), selectedSubject.name(), subjectCode));
                 cnt++;
             }
         }
@@ -164,6 +164,7 @@ public class Client {
             System.out.println("1. 이름");
             System.out.println("2. 상태");
             System.out.println("3. 성적");
+            System.out.println("4. 과목");
 
             Scanner sc = new Scanner(System.in);
             StudentModifier modifier = null;
@@ -187,6 +188,22 @@ public class Client {
                     System.out.print("새로운 성적을 입력해주세요 : ");
                     int newScoreInt=sc.nextInt();
                     modifier = student -> student.setScoreListOne(newScoreInt, subjectRound, subjectName);
+                }
+                case 4 -> {
+                    System.out.println("교체할 과목명을 입력하세요.");
+                    String oldName = sc.next();
+                    System.out.println("새로운 과목명을 입력하세요.");
+                    String newName = sc.next();
+                    Student student= findStudentById(studentID);
+                    int index=0;
+                    for(Subject subject: student.getSubjectList()){
+                        if(subject.getSubjectName().equals(oldName)){
+                            break;
+                        }
+                        index++;
+                    }
+                    Subject studentSubject=student.getSubjectList()[index];
+                    modifier = student1 -> studentSubject.updateSubjectName(oldName, newName);
                 }
             }
 
@@ -239,10 +256,10 @@ public class Client {
     public static void inquireStudentInfoByStatus(){
         Scanner sc = new Scanner(System.in);
         System.out.println("출력하고 싶은 학생의 상태를 입력하세요 : " );
-        if(Arrays.stream(Status.values()).anyMatch(v -> v.name().equals(sc.next()))){
-            studentList.stream().forEach(student -> {
-                System.out.println(student.getScoresList().toString());
-            });
+        for (Student student : studentList) {
+            if(student.getStudentStatus().equals(sc.next())){
+                System.out.println(student.getStudentName()+" : "+student.getStudentID());
+            }
         }
     }
 
@@ -302,15 +319,16 @@ public class Client {
     public static void inquireStudentInfoByStatus(Status studentStatus){
         for (Student student1 : studentList) {
             if (student1.getStudentStatus().equals(studentStatus)) {
+                System.out.println(student1.getStudentName()+" : "+student1.getStudentID());
                 studentList.stream().forEach(student -> {
                     Score[][] scoresList1=student.getScoresList();
                     for (Score[] scores : scoresList1) {
                         ArrayList<Score> scoresArrayList=new ArrayList<>();
                         StudentSubject subject=new StudentSubject(student1.getSubjectList(), scoresList1);
                         for (Score score : scores) {
-                            scoresArrayList.add(score);
+                            if(score.getSubjectCode()==SubjectCode.MANDATORY) scoresArrayList.add(score);
                         }
-                        System.out.println(subject.subjectAverageScore(scoresArrayList));
+                        if(scores[0].getSubjectCode()==SubjectCode.MANDATORY) System.out.println(subject.mandatorySubjectAverageScore(scoresArrayList));
                     }
                 });
             }

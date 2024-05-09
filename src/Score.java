@@ -7,7 +7,6 @@ public class Score {
     private int studentNum; //수강생 고유 번호
     private int round; //회차
     private int score; //점수
-
     private String scoreScale; //등급
 
     public Score(String subjectNum, int studentNum, int round, int score) {
@@ -15,8 +14,17 @@ public class Score {
         this.studentNum = studentNum;
         this.round = round;
         this.score = score;
-
         setScoreScale(score); // 객체 생성 시점 => 점수 => 등급 변경 메서드 호출
+    }
+
+    public void setSubjectNum(int subjectNum){
+        SubjectList subject=SubjectList.getSubjectByOrder(subjectNum);
+        if(subject.getSubjectCode()==SubjectCode.MANDATORY) this.subjectCode=SubjectCode.MANDATORY;
+        else this.subjectCode=SubjectCode.CHOICE;
+    }
+
+    public SubjectCode getSubjectCode() {
+        return subjectCode;
     }
 
     /**

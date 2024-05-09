@@ -34,10 +34,10 @@ public class Subject {
 
     //과목명 수정 매서드
 
-    public void updateSubjectName(String newSubjectName) {
+    public void updateSubjectName(String oldSubjectName, String newSubjectName) {
         SubjectList[] subjectLists = SubjectList.values();
         for (SubjectList subjectList : subjectLists) {
-            if (subjectList.getName().equals(newSubjectName)) {
+            if (oldSubjectName.equals(newSubjectName)) {
                 this.subjectName = newSubjectName;
                 this.subjectType = subjectList.getSubjectCode();
                 this.subjectNum = subjectList.getOrder();

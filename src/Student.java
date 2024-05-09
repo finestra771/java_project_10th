@@ -78,6 +78,7 @@ public class Student {
                 res=res+subjectList[index].getSubjectName()+" ";
                 for(Score s : score){
                     res=res+s.getScoretoString()+" ";
+                    res+=s.getScoreScale()+" ";
                 }
                 res+="\n";
                 index++;
