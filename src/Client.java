@@ -64,6 +64,7 @@ public class Client {
         System.out.println();
 
         int cnt = 0;
+        ArrayList<Integer> selectedNumbers = new ArrayList<>();
         while (cnt <= (minSelections+1)) {
             System.out.print((cnt + 1) + "번째 과목번호 : ");
             int select = sc.nextInt();
@@ -82,9 +83,15 @@ public class Client {
                 continue;
             }
 
+            if (selectedNumbers.contains(select)) {
+                System.out.println("이미 선택한 과목 번호입니다. 다시 입력해주세요.");
+                continue;
+            }
+
             SubjectList selectedSubject = SubjectList.getSubjectByOrder(select);
             if (selectedSubject != null) {
                 subjects.add(new Subject(selectedSubject.getOrder(), selectedSubject.name(), subjectCode));
+                selectedNumbers.add(select); // 선택한 과목 번호 기록
                 cnt++;
             }
         }
