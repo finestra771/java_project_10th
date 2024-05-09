@@ -1,3 +1,7 @@
+package Model;
+
+import Enum.SubjectList;
+import Enum.SubjectCode;
 
 public class Subject {
     private int subjectNum; //고유 번호
@@ -17,8 +21,6 @@ public class Subject {
     public SubjectCode getSubjectType() {
         return subjectType;
     }
-
-
 
 
     public Subject(int subjectNum, String subjectName, SubjectCode subjectType) {
