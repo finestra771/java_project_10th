@@ -101,7 +101,6 @@ public class StudentSubject {
         for (int i=0;i<averageScoreList.size();i++) {
             System.out.println(subject.getSubjectName() + "의 평균 성적은 " + averageScoreList.get(i) + "점입니다.");
         }
-        System.out.println();
     }
 
 
