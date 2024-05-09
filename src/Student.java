@@ -43,10 +43,6 @@ public class Student {
         return subjectList;
     }
 
-    public void setSubjectList(Subject[] subjectList) {
-        this.subjectList = subjectList;
-    }
-
     public Score[][] getScoresList() {
         return scoresList;
     }

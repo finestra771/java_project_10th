@@ -19,10 +19,6 @@ public class Subject {
     }
 
 
-    public int getSubjectRound() {
-        return subjectRound;
-    }
-
 
 
     public Subject(int subjectNum, String subjectName, SubjectCode subjectType) {
