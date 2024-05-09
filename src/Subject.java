@@ -37,7 +37,7 @@ public class Subject {
     public void updateSubjectName(String oldSubjectName, String newSubjectName) {
         SubjectList[] subjectLists = SubjectList.values();
         for (SubjectList subjectList : subjectLists) {
-            if (oldSubjectName.equals(newSubjectName)) {
+            if (!oldSubjectName.equals(newSubjectName)) {
                 this.subjectName = newSubjectName;
                 this.subjectType = subjectList.getSubjectCode();
                 this.subjectNum = subjectList.getOrder();
