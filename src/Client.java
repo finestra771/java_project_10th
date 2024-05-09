@@ -108,7 +108,8 @@ public class Client {
         System.out.print("삭제하고 싶은 수강생의 번호를 입력하세요 : ");
         int studentId = sc.nextInt();
         boolean flag=false;
-        for (Student student : studentList) {
+        for (int i=0;i<studentList.size();i++) {
+            Student student = studentList.get(i);
             if (student.getStudentID() == studentId) {
                 flag=true;
                 studentList.remove(student);
